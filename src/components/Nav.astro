@@ -47,6 +47,7 @@ function isActive(href: string): boolean {
     @keydown.escape="open = false"
     @mouseleave="reset()"
   >
+    {/* temporarily disable nav */}
     {navLinks.map(({ label, href }) => (
       <li>
         <a
@@ -55,6 +56,9 @@ function isActive(href: string): boolean {
           aria-current={isActive(href) ? 'page' : undefined}
           @mouseenter="move($el)"
           @focus="move($el)"
+          aria-disabled="true"
+          tabindex="-1"
+          onclick="return false;"
         >
           {label}
         </a>
@@ -118,7 +122,8 @@ function isActive(href: string): boolean {
   }
 
   .nav-toggle {
-    display: none;
+    /* temporarily disable nav */
+    display: none !important;
   }
 
   .nav-menu {
@@ -134,7 +139,11 @@ function isActive(href: string): boolean {
     font-size: var(--text-sm);
     font-weight: 500;
     letter-spacing: var(--tracking-wide);
-    text-decoration: none;
+    /* temporarily disable nav */
+    text-decoration: line-through;
+    text-decoration-color: var(--ash);
+    cursor: default;
+    pointer-events: none;
     padding-block: 0.25rem;
     transition: color var(--transition-fast);
   }
