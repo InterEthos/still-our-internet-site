@@ -1,6 +1,6 @@
-name: Site Name
-tagline: Static site starter optimized for compatibility and performance.
-description: A fast, accessible static site template built with Astro and Alpine.js.
-url: https://example.com
-title_postfix: " — Site Name"
+name: Still Our Internet
+tagline: The future of digital life is not predetermined.
+description: Still Our Internet acts on the research and frameworks produced by InterEthos.org
+url: https://stillourinternet.org
+title_postfix: " — Still Our Internet"
 og_image: /og-default.png

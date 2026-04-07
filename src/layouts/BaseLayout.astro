@@ -17,6 +17,8 @@ interface Props {
    * Should be developer-supplied data only — never pass raw user input here.
    */
   jsonLD?: Record<string, unknown>;
+  /** Strips header + footer — use on pages with fully custom chrome (e.g. coming-soon). */
+  hideHeader?: boolean;
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   ogImage,
   noindex = false,
   jsonLD,
+  hideHeader = false,
 } = Astro.props;
 
 // Build the canonical URL. Requires `site` to be set in astro.config.mjs.
@@ -57,18 +60,23 @@ const canonicalURL = Astro.site
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Placeholder font — swap for final typeface when ready -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
 
   <body>
     <!-- Skip-to-content — first focusable element, visible on keyboard focus -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <Header />
+    {!hideHeader && <Header />}
 
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
-    <Footer />
+    {!hideHeader && <Footer />}
   </body>
 </html>

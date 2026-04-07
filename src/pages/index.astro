@@ -4,14 +4,7 @@ import { loadGlobal, loadPage } from '../lib/content';
 
 const global = loadGlobal();
 const { meta, content } = loadPage('home');
-const c = content as {
-  heading: string;
-  tagline: string;
-  cta_primary: string;
-  cta_primary_href: string;
-  cta_secondary: string;
-  cta_secondary_href: string;
-};
+const c = content as { tagline: string };
 
 const jsonLD = {
   '@context': 'https://schema.org',
@@ -27,98 +20,306 @@ const jsonLD = {
   description={meta.description}
   ogImage={meta.og_image}
   jsonLD={jsonLD}
+  hideHeader={true}
 >
 
-  <section class="hero">
-    <div class="container">
-      <h1>{c.heading}</h1>
-      <p class="hero-tagline">{c.tagline}</p>
-      <div class="hero-actions">
-        <a href={c.cta_primary_href} class="btn btn-primary magnify-onhover">{c.cta_primary}</a>
-        <a href={c.cta_secondary_href} class="btn btn-outline magnify-onhover">{c.cta_secondary}</a>
+  <!-- Floating vertical nav — upper right, no header bar -->
+  <nav class="home-nav" aria-label="Main navigation">
+    <a href="/work">_Work_</a>
+    <a href="/about">_About_</a>
+    <a href="/research">Research</a>
+    <a href="/collaborate">Collaborate</a>
+  </nav>
+
+  <section class="coming-soon">
+    <div class="hero-card">
+
+      <!-- Upper content: brand name + status -->
+      <div class="hero-top">
+        <h1 class="brand-name" aria-label="Still Our Internet">
+          <svg class="brand-svg" viewBox="0 0 268 208" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path d="M174.115 140.399V133.844H226.793V140.399H174.115Z" fill="currentColor"/>
+            <path d="M158.751 95.69V86.4062H163.888V95.69L171.934 91.0481L174.534 95.5043L166.488 100.146L174.534 104.788L171.934 109.244L163.888 104.602V113.886H158.751V104.602L150.706 109.244L148.168 104.788L156.152 100.146L148.168 95.5043L150.706 91.0481L158.751 95.69Z" fill="currentColor"/>
+            <path d="M236.268 95.69V86.4062H241.405V95.69L249.451 91.0481L252.05 95.5043L244.004 100.146L252.05 104.788L249.451 109.244L241.405 104.602V113.886H236.268V104.602L228.222 109.244L225.685 104.788L233.669 100.146L225.685 95.5043L228.222 91.0481L236.268 95.69Z" fill="currentColor"/>
+            <path d="M262.509 207.233C257.932 207.233 254.539 206.269 252.328 204.34C250.117 202.412 249.011 199.237 249.011 194.815V173.529H243.266V165.045H249.011V154.941H260.388V165.045H267.946V173.529H260.388V193.581C260.388 195.51 260.812 196.859 261.66 197.631C262.534 198.376 263.82 198.749 265.516 198.749C266.031 198.749 266.48 198.736 266.866 198.71C267.252 198.659 267.612 198.607 267.946 198.556V206.809C267.329 206.911 266.558 207.001 265.632 207.078C264.732 207.181 263.691 207.233 262.509 207.233Z" fill="currentColor"/>
+            <path d="M222.594 207.232C218.378 207.232 214.753 206.37 211.719 204.648C208.686 202.9 206.346 200.419 204.701 197.205C203.081 193.992 202.271 190.187 202.271 185.791V185.752C202.271 181.356 203.081 177.551 204.701 174.337C206.346 171.098 208.647 168.604 211.604 166.856C214.586 165.082 218.095 164.195 222.131 164.195C226.168 164.195 229.651 165.057 232.582 166.779C235.538 168.476 237.814 170.88 239.408 173.99C241.027 177.101 241.837 180.739 241.837 184.904V188.374H207.786V181.279H236.515L231.155 187.911V183.592C231.155 181.176 230.782 179.158 230.037 177.538C229.291 175.893 228.25 174.659 226.913 173.836C225.602 173.013 224.072 172.602 222.324 172.602C220.576 172.602 219.021 173.026 217.658 173.875C216.321 174.723 215.267 175.97 214.496 177.615C213.75 179.235 213.378 181.227 213.378 183.592V187.95C213.378 190.238 213.75 192.192 214.496 193.812C215.267 195.431 216.36 196.678 217.774 197.552C219.188 198.401 220.872 198.825 222.826 198.825C224.368 198.825 225.705 198.581 226.836 198.092C227.967 197.604 228.893 196.987 229.613 196.241C230.332 195.496 230.821 194.737 231.078 193.966L231.155 193.734H241.49L241.374 194.159C241.066 195.675 240.462 197.205 239.562 198.748C238.662 200.29 237.441 201.704 235.898 202.99C234.382 204.275 232.518 205.303 230.307 206.075C228.121 206.846 225.551 207.232 222.594 207.232Z" fill="currentColor"/>
+            <path d="M159.851 206.383V165.044H171.111V171.831H171.342C172.422 169.466 174.016 167.602 176.124 166.239C178.232 164.877 180.842 164.195 183.952 164.195C188.503 164.195 192.012 165.571 194.48 168.322C196.974 171.047 198.221 174.839 198.221 179.698V206.383H186.96V182.011C186.96 179.312 186.318 177.23 185.032 175.764C183.772 174.273 181.883 173.528 179.363 173.528C177.692 173.528 176.24 173.913 175.006 174.684C173.772 175.43 172.808 176.484 172.114 177.847C171.445 179.209 171.111 180.803 171.111 182.628V206.383H159.851Z" fill="currentColor"/>
+            <path d="M132.662 206.383V165.044H143.73V172.101H143.961C144.578 169.607 145.722 167.666 147.393 166.278C149.064 164.889 151.121 164.195 153.563 164.195C154.18 164.195 154.772 164.234 155.337 164.311C155.903 164.388 156.391 164.491 156.802 164.619V174.53C156.34 174.35 155.748 174.209 155.029 174.106C154.309 173.977 153.537 173.913 152.715 173.913C150.864 173.913 149.283 174.273 147.972 174.993C146.66 175.713 145.658 176.754 144.964 178.117C144.27 179.479 143.922 181.137 143.922 183.091V206.383H132.662Z" fill="currentColor"/>
+            <path d="M109.176 207.232C104.96 207.232 101.335 206.37 98.3014 204.648C95.2678 202.9 92.9283 200.419 91.283 197.205C89.6633 193.992 88.8535 190.187 88.8535 185.791V185.752C88.8535 181.356 89.6633 177.551 91.283 174.337C92.9283 171.098 95.2292 168.604 98.1857 166.856C101.168 165.082 104.677 164.195 108.713 164.195C112.75 164.195 116.233 165.057 119.164 166.779C122.12 168.476 124.396 170.88 125.99 173.99C127.609 177.101 128.419 180.739 128.419 184.904V188.374H94.368V181.279H123.097L117.737 187.911V183.592C117.737 181.176 117.364 179.158 116.619 177.538C115.873 175.893 114.832 174.659 113.495 173.836C112.184 173.013 110.654 172.602 108.906 172.602C107.158 172.602 105.603 173.026 104.24 173.875C102.903 174.723 101.849 175.97 101.078 177.615C100.332 179.235 99.9596 181.227 99.9596 183.592V187.95C99.9596 190.238 100.332 192.192 101.078 193.812C101.849 195.431 102.942 196.678 104.356 197.552C105.77 198.401 107.454 198.825 109.408 198.825C110.95 198.825 112.287 198.581 113.418 198.092C114.549 197.604 115.475 196.987 116.195 196.241C116.914 195.496 117.403 194.737 117.66 193.966L117.737 193.734H128.072L127.956 194.159C127.648 195.675 127.044 197.205 126.144 198.748C125.244 200.29 124.023 201.704 122.48 202.99C120.964 204.275 119.1 205.303 116.889 206.075C114.704 206.846 112.133 207.232 109.176 207.232Z" fill="currentColor"/>
+            <path d="M80.8308 207.233C76.2547 207.233 72.8611 206.269 70.6502 204.34C68.4392 202.412 67.3338 199.237 67.3338 194.815V173.529H61.5879V165.045H67.3338V154.941H78.7098V165.045H86.2682V173.529H78.7098V193.581C78.7098 195.51 79.134 196.859 79.9824 197.631C80.8565 198.376 82.1419 198.749 83.8387 198.749C84.3529 198.749 84.8028 198.736 85.1884 198.71C85.574 198.659 85.9339 198.607 86.2682 198.556V206.809C85.6512 206.911 84.8799 207.001 83.9544 207.078C83.0546 207.181 82.0134 207.233 80.8308 207.233Z" fill="currentColor"/>
+            <path d="M20.4785 206.383V165.044H31.7389V171.831H31.9703C33.05 169.466 34.644 167.602 36.7521 166.239C38.8602 164.877 41.4696 164.195 44.5803 164.195C49.1308 164.195 52.64 165.571 55.108 168.322C57.6017 171.047 58.8486 174.839 58.8486 179.698V206.383H47.5882V182.011C47.5882 179.312 46.9455 177.23 45.6601 175.764C44.4004 174.273 42.5108 173.528 39.9913 173.528C38.3203 173.528 36.8678 173.913 35.6337 174.684C34.3997 175.43 33.4357 176.484 32.7415 177.847C32.0731 179.209 31.7389 180.803 31.7389 182.628V206.383H20.4785Z" fill="currentColor"/>
+            <path d="M2.12109 206.385V150.738H13.7671V206.385H2.12109Z" fill="currentColor"/>
+            <path d="M102.966 132.383V91.0437H114.033V98.1007H114.265C114.882 95.607 116.026 93.666 117.697 92.2777C119.368 90.8894 121.425 90.1953 123.867 90.1953C124.484 90.1953 125.075 90.2339 125.641 90.311C126.206 90.3881 126.695 90.491 127.106 90.6195V100.53C126.643 100.35 126.052 100.209 125.332 100.106C124.612 99.9774 123.841 99.9132 123.019 99.9132C121.168 99.9132 119.586 100.273 118.275 100.993C116.964 101.713 115.962 102.754 115.267 104.117C114.573 105.479 114.226 107.137 114.226 109.091V132.383H102.966Z" fill="currentColor"/>
+            <path d="M73.1169 133.231C70.0833 133.231 67.4996 132.614 65.3658 131.38C63.2577 130.12 61.638 128.333 60.5068 126.02C59.4014 123.706 58.8486 120.942 58.8486 117.729V91.043H70.109V115.376C70.109 118.076 70.7389 120.171 71.9986 121.662C73.284 123.153 75.1865 123.899 77.7059 123.899C79.4027 123.899 80.8552 123.513 82.0635 122.742C83.2975 121.97 84.2487 120.904 84.9172 119.541C85.6113 118.153 85.9584 116.572 85.9584 114.798V91.043H97.2187V132.382H85.9584V125.557H85.727C84.6729 127.948 83.0919 129.824 80.9837 131.187C78.8756 132.55 76.2534 133.231 73.1169 133.231Z" fill="currentColor"/>
+            <path d="M27.2255 133.348C21.7239 133.348 16.9549 132.178 12.9187 129.839C8.90815 127.499 5.81026 124.183 3.62503 119.889C1.4655 115.57 0.385742 110.467 0.385742 104.58V104.503C0.385742 98.5898 1.47836 93.4867 3.66359 89.1933C5.84882 84.9 8.94671 81.5964 12.9573 79.2827C16.9935 76.9432 21.7496 75.7734 27.2255 75.7734C32.7272 75.7734 37.4833 76.9432 41.4938 79.2827C45.5043 81.6222 48.6022 84.9386 50.7875 89.2319C52.9727 93.4995 54.0653 98.5898 54.0653 104.503V104.58C54.0653 110.467 52.9727 115.57 50.7875 119.889C48.6022 124.183 45.5043 127.499 41.4938 129.839C37.509 132.178 32.7529 133.348 27.2255 133.348ZM27.2255 123.476C30.3106 123.476 32.9714 122.705 35.208 121.162C37.4447 119.594 39.1672 117.396 40.3755 114.568C41.5838 111.74 42.1879 108.411 42.1879 104.58V104.503C42.1879 100.621 41.5709 97.2787 40.3369 94.4765C39.1286 91.6485 37.3933 89.4761 35.1309 87.9593C32.8943 86.4168 30.2591 85.6455 27.2255 85.6455C24.1919 85.6455 21.5439 86.404 19.2816 87.9208C17.0449 89.4376 15.3096 91.6099 14.0756 94.4379C12.8673 97.2401 12.2631 100.595 12.2631 104.503V104.58C12.2631 108.436 12.8673 111.778 14.0756 114.606C15.3096 117.434 17.0449 119.619 19.2816 121.162C21.5182 122.705 24.1662 123.476 27.2255 123.476Z" fill="currentColor"/>
+            <path d="M111.26 58.3846V2.73828H122.52V58.3846H111.26Z" fill="currentColor"/>
+            <path d="M93.7119 58.3846V2.73828H104.972V58.3846H93.7119Z" fill="currentColor"/>
+            <path d="M76.203 58.3843V17.0448H87.4634V58.3843H76.203ZM81.8332 11.7231C80.1364 11.7231 78.7096 11.1447 77.5527 9.98779C76.3958 8.83091 75.8174 7.4555 75.8174 5.86156C75.8174 4.24192 76.3958 2.86651 77.5527 1.73533C78.7096 0.578444 80.1364 0 81.8332 0C83.53 0 84.9568 0.578444 86.1137 1.73533C87.2706 2.86651 87.849 4.24192 87.849 5.86156C87.849 7.4555 87.2706 8.83091 86.1137 9.98779C84.9568 11.1447 83.53 11.7231 81.8332 11.7231Z" fill="currentColor"/>
+            <path d="M65.905 59.2327C61.3289 59.2327 57.9353 58.2686 55.7244 56.3405C53.5135 54.4124 52.408 51.2373 52.408 46.8155V25.5287H46.6621V17.0449H52.408V6.94141H63.784V17.0449H71.3424V25.5287H63.784V45.5814C63.784 47.5096 64.2082 48.8593 65.0566 49.6306C65.9307 50.3761 67.2161 50.7489 68.9129 50.7489C69.4271 50.7489 69.877 50.736 70.2626 50.7103C70.6482 50.6589 71.0082 50.6075 71.3424 50.5561V58.8085C70.7254 58.9114 69.9541 59.0013 69.0286 59.0785C68.1288 59.1813 67.0876 59.2327 65.905 59.2327Z" fill="currentColor"/>
+            <path d="M22.4436 59.3479C18.0474 59.3479 14.204 58.7052 10.9133 57.4197C7.64831 56.1086 5.07745 54.2447 3.20072 51.8281C1.32399 49.3858 0.26994 46.455 0.0385628 43.0358L0 42.4187H10.9904L11.0676 42.8429C11.3246 44.2826 11.9674 45.5295 12.9957 46.5835C14.0498 47.6119 15.4123 48.4217 17.0834 49.013C18.7544 49.5786 20.644 49.8614 22.7521 49.8614C24.9116 49.8614 26.7627 49.5786 28.3052 49.013C29.8734 48.4217 31.0817 47.599 31.9301 46.545C32.8042 45.4652 33.2412 44.2183 33.2412 42.8044V42.7658C33.2412 40.8891 32.4957 39.4237 31.0046 38.3696C29.5392 37.2899 27.0712 36.3901 23.6005 35.6702L17.7389 34.5134C12.263 33.4079 8.13677 31.544 5.36024 28.9217C2.58371 26.2994 1.19545 22.8931 1.19545 18.7026V18.664C1.19545 15.2705 2.10811 12.314 3.93342 9.79452C5.75873 7.24937 8.26532 5.28266 11.4532 3.8944C14.6411 2.48042 18.2917 1.77344 22.4051 1.77344C26.6984 1.77344 30.4004 2.44186 33.5112 3.77871C36.6476 5.11556 39.0899 7.00514 40.8381 9.44746C42.5863 11.8898 43.5504 14.7306 43.7303 17.9699L43.7689 18.7026H32.7785L32.7399 18.2398C32.5342 16.7744 31.9815 15.5275 31.0817 14.4992C30.1819 13.4451 28.9865 12.6353 27.4954 12.0697C26.03 11.5041 24.3332 11.2214 22.4051 11.2214C20.4255 11.2214 18.7159 11.517 17.2762 12.1083C15.8365 12.6739 14.731 13.458 13.9598 14.4606C13.2142 15.4633 12.8414 16.633 12.8414 17.9699V18.0084C12.8414 19.7566 13.587 21.1706 15.0781 22.2503C16.5692 23.3301 18.9087 24.1913 22.0965 24.8341L27.9967 26.0295C33.8325 27.1864 38.1002 29.0246 40.7996 31.544C43.5247 34.0377 44.8872 37.4698 44.8872 41.8403V41.8789C44.8872 45.4524 43.9874 48.5502 42.1878 51.1725C40.4139 53.7691 37.8431 55.7872 34.4752 57.2269C31.1331 58.6409 27.1226 59.3479 22.4436 59.3479Z" fill="currentColor"/>
+          </svg>
+        </h1>
+        <p class="status-label" aria-label="Is still under development">
+          IS<br>
+          STILL<br>
+          UNDER<br>
+          DEVELOPMENT<span class="cursor" aria-hidden="true">_</span>
+        </p>
       </div>
+
+      <!-- Lower content: globe + tagline, globe overflows below card -->
+      <div class="hero-bottom">
+
+        <!-- Placeholder: swap for final globe illustration asset -->
+        <div class="globe-wrap" role="img" aria-label="Globe illustration — placeholder">
+          <div class="globe-gradient">
+            <svg
+              class="globe-wireframe"
+              viewBox="0 0 100 100"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+              aria-hidden="true"
+            >
+              <circle cx="50" cy="50" r="33" />
+              <ellipse cx="50" cy="50" rx="33" ry="10" />
+              <ellipse cx="50" cy="50" rx="33" ry="20" />
+              <ellipse cx="50" cy="50" rx="33" ry="29" />
+              <ellipse cx="50" cy="50" rx="13" ry="33" />
+              <ellipse cx="50" cy="50" rx="24" ry="33" />
+            </svg>
+          </div>
+        </div>
+
+        <p class="tagline">{c.tagline}</p>
+
+      </div>
+
     </div>
   </section>
 
-  <!-- Example of Alpine.js interactivity with minimal footprint -->
-  <section class="demo-section">
-    <div class="container">
-      <div class="demo-card" x-data="{ count: 0 }">
-        <p>Alpine demo</p>
-        <div class="counter">
-          <button
-            class="btn btn-outline"
-            @click="count--"
-            :disabled="count <= 0"
-            aria-label="Decrement"
-            data-tooltip="Decrement"
-          >−</button>
-          <output x-text="count" aria-live="polite" aria-atomic="true">0</output>
-          <button
-            class="btn btn-outline"
-            @click="count++"
-            aria-label="Increment"
-            data-tooltip="Increment"
-          >+</button>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Footer lives outside the card, below the section -->
+  <footer class="home-footer" role="contentinfo">
+    <p class="footer-desc">
+      Still Our *-* Internet acts on the research and frameworks produced by
+      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer">InterEthos.org</a><br>
+      Neither organization is subsidiary to the other.
+    </p>
+    <p class="footer-copy">&copy; {global.name}. Some rights reserved.</p>
+  </footer>
 
 </BaseLayout>
 
 <style>
-  .hero {
-    padding-block: 6rem;
-    text-align: center;
+  /* ---- Floating nav ---------------------------------------------------- */
+
+  .home-nav {
+    position: fixed;
+    top: clamp(1.5rem, 3vw, 2.5rem);
+    right: clamp(1.5rem, 3vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+    z-index: var(--z-header);
   }
 
-  .hero h1 {
-    margin-bottom: 1rem;
+  .home-nav a {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--carbon);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    letter-spacing: 0.01em;
+    transition: color var(--transition-fast);
   }
 
-  .hero-tagline {
-    font-size: var(--text-xl);
+  .home-nav a:hover {
     color: var(--ash);
-    max-width: 40ch;
-    margin-inline: auto;
   }
 
-  .hero-actions {
+  /* ---- Page wrapper ---------------------------------------------------- */
+
+  .coming-soon {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: stretch;
+    /* Horizontal margins match PDF proportions (~8% each side) */
+    padding-inline: clamp(1.5rem, 8vw, 8rem);
+    /* Top: enough linen for the floating nav to breathe above the card */
+    padding-top: clamp(4rem, 22vh, 10rem);
+    padding-bottom: clamp(0.75rem, 2vh, 1.5rem);
+  }
+
+  /* ---- Hero card ------------------------------------------------------- */
+
+  .hero-card {
+    flex: 1;
+    background-color: var(--parchment);
+    border-radius: 1rem;
+    /* Uniform card padding — top portion for space above brand name */
+    padding: clamp(2.5rem, 5vw, 4.5rem);
+    padding-top: clamp(3rem, 12vh, 7rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: visible;
+
+    /* Subtle grid texture */
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--chalk) 55%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--chalk) 55%, transparent) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  /* ---- Top: brand name + status side by side --------------------------- */
+
+  .hero-top {
+    display: flex;
+    align-items: center;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  .brand-name {
+    margin: 0;
+    flex-shrink: 0;
+    line-height: 0;
+    color: var(--carbon);
+  }
+
+  .brand-svg {
+    width: clamp(180px, 26vw, 380px);
+    height: auto;
+  }
+
+  .status-label {
+    font-size: clamp(0.75rem, 1.1vw, 1rem);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    line-height: var(--leading-snug);
+    color: var(--carbon);
+    text-transform: uppercase;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .cursor {
+    display: inline-block;
+    animation: blink 1.1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* ---- Bottom: globe + tagline ---------------------------------------- */
+
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  /* Globe placeholder — overflows below the card boundary */
+  .globe-wrap {
+    flex-shrink: 0;
+    width: clamp(200px, 24vw, 310px);
+    aspect-ratio: 1 / 1;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    bottom: clamp(-2.5rem, -5vw, -4rem); /* overflow below card */
+  }
+
+  .globe-gradient {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse at 38% 38%,
+      var(--sienna)      0%,
+      var(--fuzzy-wuzzy) 38%,
+      var(--lilac)       68%,
+      var(--washed-blue) 100%
+    );
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 16%;
+  }
+
+  .globe-wireframe {
+    width: 100%;
+    height: 100%;
+    color: var(--carbon);
+    opacity: 0.5;
+  }
+
+  /* Tagline */
+  .tagline {
+    font-size: clamp(1.25rem, 2.8vw, 2.5rem);
+    font-weight: 400;
+    line-height: var(--leading-snug);
+    letter-spacing: -0.015em;
+    color: var(--carbon);
+    margin: 0;
+    padding-bottom: clamp(1rem, 2vw, 2rem);
+  }
+
+  /* ---- Footer ---------------------------------------------------------- */
+
+  .home-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 2rem;
+    padding: clamp(1.25rem, 2vw, 1.75rem) clamp(0.75rem, 1.5vw, 1.5rem);
   }
 
-  .demo-section {
-    padding-block: 4rem;
-    border-top: 1px solid var(--chalk);
+  .footer-desc {
+    font-size: var(--text-sm);
+    color: var(--ash);
+    line-height: var(--leading-relaxed);
   }
 
-  .demo-card {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    padding: 2rem;
-    border: 1px solid var(--chalk);
-    border-radius: 0.75rem;
-    background: var(--parchment);
+  .footer-desc a {
+    color: var(--ash);
+    text-underline-offset: 0.2em;
+    transition: color var(--transition-fast);
   }
 
-  .counter {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  .footer-desc a:hover {
+    color: var(--carbon);
   }
 
-  .counter output {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    min-width: 3ch;
-    text-align: center;
+  .footer-copy {
+    font-size: var(--text-sm);
+    color: var(--ash);
+    white-space: nowrap;
+  }
+
+  /* ---- Responsive ------------------------------------------------------- */
+
+  @media (max-width: 640px) {
+    .home-nav {
+      position: absolute;
+    }
+
+    .hero-top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .hero-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .globe-wrap {
+      bottom: 0;
+    }
   }
 </style>

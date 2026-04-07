@@ -7,14 +7,14 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer" role="contentinfo">
   <div class="container footer-inner">
-    <p class="footer-copy">
-      &copy; {year} {name}. All rights reserved.
+    <p class="footer-desc">
+      Still Our *-* Internet acts on the research and frameworks produced by
+      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer">InterEthos.org</a><br>
+      Neither organization is subsidiary to the other.
     </p>
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <ul role="list">
-        <li><a href="/privacy">Privacy</a></li>
-      </ul>
-    </nav>
+    <p class="footer-copy">
+      &copy; {name}. Some rights reserved.
+    </p>
   </div>
 </footer>
 
@@ -33,24 +33,25 @@ const year = new Date().getFullYear();
     gap: 1rem;
   }
 
-  .footer-copy {
+  .footer-desc {
     font-size: var(--text-sm);
     color: var(--ash);
+    line-height: var(--leading-relaxed);
   }
 
-  .footer-nav ul {
-    display: flex;
-    gap: 1.25rem;
-  }
-
-  .footer-nav a {
-    font-size: var(--text-sm);
+  .footer-desc a {
     color: var(--ash);
-    text-decoration: none;
+    text-underline-offset: 0.2em;
     transition: color var(--transition-fast);
   }
 
-  .footer-nav a:hover {
+  .footer-desc a:hover {
     color: var(--carbon);
+  }
+
+  .footer-copy {
+    font-size: var(--text-sm);
+    color: var(--ash);
+    white-space: nowrap;
   }
 </style>
