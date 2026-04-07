@@ -8,19 +8,134 @@
 @import './x-browser.css';
 
 /* ---------------------------------------------------------------------------
-   Self-hosted fonts — uncomment and fill in to use local fonts.
-   Files go in public/fonts/ (e.g. public/fonts/inter-regular.woff2).
-
-   @font-face {
-     font-family: 'Inter';
-     src: url('/fonts/inter-regular.woff2') format('woff2');
-     font-weight: 400;
-     font-style: normal;
-     font-display: swap;
-   }
-
-   Then update --font-sans in variables.css to 'Inter', system-ui, ...
+   WhyteInktrap — self-hosted
 --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-ExtraLight.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-ExtraLightItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-ExtraLightItalic.woff') format('woff');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Light.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-LightItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Regular.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Italic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Medium.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-MediumItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-MediumItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Bold.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-BoldItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Heavy.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Heavy.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-HeavyItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-HeavyItalic.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-Black.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WhyteInktrap';
+  src: url('/fonts/inktrap/WhyteInktrap-BlackItalic.woff2') format('woff2'),
+       url('/fonts/inktrap/WhyteInktrap-BlackItalic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* ---------------------------------------------------------------------------
    Selection
