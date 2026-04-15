@@ -3,8 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { loadGlobal, loadPage } from "../lib/content";
 
 const global = loadGlobal();
-const { meta, content } = loadPage("home");
-const c = content as { tagline: string };
+const { meta } = loadPage("home");
 
 const jsonLD = {
   "@context": "https://schema.org",
@@ -12,6 +11,23 @@ const jsonLD = {
   name: global.name,
   description: global.description,
   url: global.url,
+};
+
+const tabs = [
+  { id: "anyone",    label: "for Anyone" },
+  { id: "engineers", label: "for Engineers" },
+  { id: "thinkers",  label: "for Thinkers" },
+  { id: "creators",  label: "for Creators" },
+  { id: "donors",    label: "for Donors" },
+  { id: "humans",    label: "for Humans" },
+];
+
+// Temporary Figma asset URLs (expire ~7 days — swap for permanent assets)
+const FIG = {
+  darkCardIllustration: "https://www.figma.com/api/mcp/asset/e173de6f-2ab6-446f-81a9-4f4f73cadd5d",
+  photoCard:            "https://www.figma.com/api/mcp/asset/a1788332-ddd1-4ccf-8774-98921f83d0ec",
+  bgPhotoCard:          "https://www.figma.com/api/mcp/asset/3bd9b83e-a12e-4ff8-a0d6-92167505b3d7",
+  wireframeIllustration:"https://www.figma.com/api/mcp/asset/ef3e0c7c-b293-4453-ba63-cb0ff7f57e83",
 };
 ---
 
@@ -22,304 +38,618 @@ const jsonLD = {
   jsonLD={jsonLD}
   hideHeader={true}
 >
-  <div class="nav-container container">
-    <nav class="home-nav" aria-label="Main navigation">
-      <a href="/work">Work</a>
-      <a href="/about">About</a>
-      <a href="/research">Research</a>
-      <a href="/collaborate">Collaborate</a>
-    </nav>
-  </div>
+  <div class="home" x-data="{ tab: 'anyone' }">
 
-  <section class="work-in-progress">
-    <div class="hero-card">
-      <div class="hero-top">
-        <h1 class="brand-name" aria-label="Still Our Internet">
-          <img src="/logo.svg" alt="" aria-hidden="true" class="brand-svg" />
-        </h1>
-        <p class="status-label" aria-label="Is still under development">
-          IS<br />
-          STILL<br />
-          UNDER<br />
-          DEVELOPMENT<span class="cursor" aria-hidden="true">_</span>
-        </p>
-      </div>
+    <div class="home-top">
+      <a href="/" class="home-logo" aria-label="Still Our Internet — home">
+        <img src="/logo.svg" alt="Still Our Internet" width="268" height="208" />
+      </a>
+      <nav class="home-nav" aria-label="Main navigation">
+        <a href="/work">Work</a>
+        <a href="/about">About</a>
+        <a href="/research">Research</a>
+        <a href="/collaborate">Collaborate</a>
+      </nav>
+    </div>
 
-      <!-- Lower content: globe + tagline, globe overflows below card -->
-      <div class="hero-bottom">
-        <!-- Placeholder: swap for final globe illustration asset -->
-        <div
-          class="globe-wrap"
-          role="img"
-          aria-label="Globe illustration — placeholder"
+    <div class="tab-bar" role="tablist" aria-label="Explore by audience">
+      {tabs.map(t => (
+        <button
+          role="tab"
+          class="tab-btn"
+          x-bind:class={`tab === '${t.id}' ? 'is-active' : ''`}
+          x-on:click={`tab = '${t.id}'`}
+          x-bind:aria-selected={`tab === '${t.id}'`}
+          aria-controls={`panel-${t.id}`}
         >
-          <div class="globe-gradient">
-            <svg
-              class="globe-wireframe"
-              viewBox="0 0 100 100"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.2"
-              aria-hidden="true"
-            >
-              <circle cx="50" cy="50" r="33"></circle>
-              <ellipse cx="50" cy="50" rx="33" ry="10"></ellipse>
-              <ellipse cx="50" cy="50" rx="33" ry="20"></ellipse>
-              <ellipse cx="50" cy="50" rx="33" ry="29"></ellipse>
-              <ellipse cx="50" cy="50" rx="13" ry="33"></ellipse>
-              <ellipse cx="50" cy="50" rx="24" ry="33"></ellipse>
-            </svg>
+          {t.label}
+        </button>
+      ))}
+    </div>
+
+    <div class="home-main">
+
+      <div class="cards-grid" aria-hidden="true">
+
+        <div class="card card--dark">
+          <img
+            src={FIG.darkCardIllustration}
+            alt=""
+            class="card-illus"
+          />
+          <p class="card-caption">Lorem ipsum big number for Engineers</p>
+        </div>
+
+        <div class="card card--photo">
+          <img src={FIG.photoCard} alt="" class="card-fill-img" />
+        </div>
+
+        <div class="card card--bg-photo">
+          <img src={FIG.bgPhotoCard} alt="" class="card-bg-img" />
+          <div class="card-overlay">
+            <span class="card-tag">Lorem ipsum TAG&thinsp;↗</span>
+            <p class="card-title">Lorem ipsum dolor sit amet title</p>
           </div>
         </div>
 
-        <p class="tagline">{c.tagline}</p>
+        <div class="card card--outline">
+          <span class="card-tag">Lorem ipsum TAG&thinsp;↗</span>
+          <img
+            src={FIG.wireframeIllustration}
+            alt=""
+            class="card-illus card-illus--mid"
+          />
+          <p class="card-title">Solving lorem ipsum engineering problems</p>
+        </div>
+
+      </div>
+
+      <div class="tab-panels">
+
+        <div id="panel-anyone" role="tabpanel" class="tab-panel" x-show="tab === 'anyone'" x-cloak>
+          <p class="panel-eyebrow">for Anyone</p>
+          <h2 class="panel-heading">The future of digital life is not predetermined.</h2>
+          <div class="panel-body">
+            <p>Our lives are being shaped by the incentives we accept, the protocols we adopt, the assumptions embedded in systems we use on the web, without thinking. Markets, models, interfaces, and institutions are already determining what participation feels like and what we gradually come to accept as normal.</p>
+            <p>The norms accumulate and become our defaults.</p>
+            <p>But our future doesn't belong exclusively to platforms, AI models, or institutions with concentrated power. Not yet, and not inevitably.</p>
+            <p>We can still negotiate the terms. We can still choose how we participate, and we can actively imagine and build other possibilities.</p>
+          </div>
+          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
+        </div>
+
+        <div id="panel-engineers" role="tabpanel" class="tab-panel" x-show="tab === 'engineers'" x-cloak>
+          <p class="panel-eyebrow">for Engineers</p>
+          <h2 class="panel-heading">Technical decisions are value decisions.</h2>
+          <div class="panel-body">
+            <p>The protocols, APIs, and infrastructure we build determine what becomes possible for billions of people. Engineers are not neutral implementers — they are active participants in shaping the conditions of digital life.</p>
+            <p>Still Our Internet works at the intersection of technical practice and civic responsibility.</p>
+          </div>
+          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
+        </div>
+
+        <div id="panel-thinkers" role="tabpanel" class="tab-panel" x-show="tab === 'thinkers'" x-cloak>
+          <p class="panel-eyebrow">for Thinkers</p>
+          <h2 class="panel-heading">The frameworks we build shape what we can imagine.</h2>
+          <div class="panel-body">
+            <p>Concepts travel. The assumptions embedded in academic research become the assumptions embedded in products, policies, and platforms. Ideas about agency, consent, and participation have consequences.</p>
+            <p>We work to develop frameworks that expand what's imaginable — and what's buildable.</p>
+          </div>
+          <a href="/research" class="panel-cta">Our research&thinsp;↗</a>
+        </div>
+
+        <div id="panel-creators" role="tabpanel" class="tab-panel" x-show="tab === 'creators'" x-cloak>
+          <p class="panel-eyebrow">for Creators</p>
+          <h2 class="panel-heading">Creation is a negotiation with the systems that distribute it.</h2>
+          <div class="panel-body">
+            <p>Algorithms, feeds, and recommendation engines don't just surface content — they shape what gets made. Creators are actors in a larger ecosystem with its own incentives and constraints.</p>
+            <p>Still Our Internet examines these dynamics and works toward conditions where creators retain meaningful agency.</p>
+          </div>
+          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
+        </div>
+
+        <div id="panel-donors" role="tabpanel" class="tab-panel" x-show="tab === 'donors'" x-cloak>
+          <p class="panel-eyebrow">for Donors</p>
+          <h2 class="panel-heading">The moment for intervention is now.</h2>
+          <div class="panel-body">
+            <p>Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.</p>
+            <p>Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.</p>
+          </div>
+          <a href="/collaborate" class="panel-cta">Work with us&thinsp;↗</a>
+        </div>
+
+        <div id="panel-humans" role="tabpanel" class="tab-panel" x-show="tab === 'humans'" x-cloak>
+          <p class="panel-eyebrow">for Humans</p>
+          <h2 class="panel-heading">You are not the product. You are not the problem. You are the point.</h2>
+          <div class="panel-body">
+            <p>The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.</p>
+            <p>Still Our Internet is a reminder that the future of digital life is still ours to shape.</p>
+          </div>
+          <a href="/about" class="panel-cta">About us&thinsp;↗</a>
+        </div>
+
       </div>
     </div>
-  </section>
 
-  <!-- Footer lives outside the card, below the section -->
-  <footer class="home-footer" role="contentinfo">
-    <p class="footer-desc">
-      Still Our *-* Internet acts on the research and frameworks produced by
-      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer"
-        >InterEthos.org</a
-      ><br />
-      Neither organization is subsidiary to the other.
-    </p>
-    <p class="footer-copy">&copy; {global.name}. Some rights reserved.</p>
-  </footer>
+    <div class="section-rule" role="separator"></div>
+
+    <div class="founding-section">
+      <div class="founding-text">
+        <h2 class="founding-heading">Founding Note</h2>
+        <div class="founding-body">
+          <p>Still Our Internet begins from a simple premise: the future of digital life is not predetermined.</p>
+          <p>As AI becomes part of the infrastructure of modern society, we have an opportunity and a responsibility to help shape the conditions under which it develops.</p>
+          <p>The goal is not to resist change for its own sake, nor to embrace it uncritically. It is to build the capacity, the language and the public understanding needed to navigate what comes next with dignity and intention.</p>
+        </div>
+      </div>
+      <nav class="founding-nav" aria-label="Site navigation">
+        <a href="/work">Work</a>
+        <a href="/about">About</a>
+        <a href="/research">Research</a>
+        <a href="/collaborate">Collaborate</a>
+      </nav>
+    </div>
+
+    <div class="section-rule" role="separator"></div>
+
+    <footer class="home-footer" role="contentinfo">
+      <p class="footer-desc">
+        Still Our Internet acts on the research and frameworks produced by
+        <a href="https://interethos.org" target="_blank" rel="noopener noreferrer">InterEthos</a>.
+        Neither organization is subsidiary to the other.
+      </p>
+      <p class="footer-copy">All rights reserved</p>
+    </footer>
+
+  </div>
 </BaseLayout>
 
 <style>
-  /* ---- Floating nav ---------------------------------------------------- */
+  /* ── Page wrapper ────────────────────────────────────────────────────── */
 
-  .nav-container {
+  .home {
     display: flex;
-    justify-content: flex-end;
-    padding-block: clamp(1rem, 2vw, 1.5rem);
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-inline: clamp(1.25rem, 8.5vw, 9rem);
+    background-color: var(--linen);
+  }
+
+  /* ── Top: logo + nav ──────────────────────────────────────────────────── */
+
+  .home-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-block: clamp(1.75rem, 5vw, 4rem);
+  }
+
+  .home-logo {
+    display: block;
+    line-height: 0;
+    flex-shrink: 0;
+  }
+
+  .home-logo img {
+    width: clamp(140px, 18vw, 268px);
+    height: auto;
+    color: var(--carbon);
   }
 
   .home-nav {
-    /* position: fixed;
-    top: clamp(1.5rem, 3vw, 2.5rem);
-    right: clamp(1.5rem, 3vw, 2.5rem); */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.6rem;
-    pointer-events: none;
-    z-index: var(--z-header);
+    gap: clamp(0.4rem, 0.8vw, 0.65rem);
   }
 
   .home-nav a {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--ash);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+    font-weight: 400;
+    color: var(--carbon);
+    text-decoration: line-through;
     letter-spacing: 0.01em;
-    transition: color var(--transition-fast);
-    text-decoration: line-through !important;
+    pointer-events: none;
   }
 
-  .home-nav a:hover {
-    color: var(--ash);
-  }
+  /* ── Tab bar ──────────────────────────────────────────────────────────── */
 
-  /* ---- Page wrapper ---------------------------------------------------- */
-
-  .work-in-progress {
-    min-height: 100vh;
-    min-height: 100svh;
+  .tab-bar {
     display: flex;
-    align-items: stretch;
-    /* Horizontal margins match PDF proportions (~8% each side) */
-    padding-inline: clamp(1.5rem, 8vw, 8rem);
-    /* Top: enough linen for the floating nav to breathe above the card */
-    padding-top: clamp(4rem, 22vh, 10rem);
-    padding-bottom: clamp(0.75rem, 2vh, 1.5rem);
+    align-items: center;
+    background-color: var(--parchment);
+    border-radius: 100px;
+    padding: clamp(6px, 0.65vw, 10px);
+    gap: 2px;
+    margin-block-end: clamp(1.5rem, 3vw, 3rem);
   }
 
-  /* ---- Hero card ------------------------------------------------------- */
-
-  .hero-card {
+  .tab-btn {
     flex: 1;
-    background-color: var(--parchment);
-    border-radius: 1rem;
-    /* Uniform card padding — top portion for space above brand name */
-    padding: clamp(2.5rem, 5vw, 4.5rem);
-    padding-top: clamp(3rem, 12vh, 7rem);
+    height: clamp(42px, 4.5vw, 65px);
+    border: none;
+    border-radius: 100px;
+    background: transparent;
+    padding: 0 clamp(0.5rem, 1.4vw, 1.5rem);
+    font-family: var(--font-sans);
+    font-size: clamp(0.8rem, 1.25vw, 1.5rem);
+    font-weight: 400;
+    color: var(--carbon);
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .tab-btn.is-active {
+    background-color: var(--carbon);
+    color: var(--linen);
+  }
+
+  .tab-btn:not(.is-active):hover {
+    background-color: color-mix(in srgb, var(--chalk) 50%, transparent);
+  }
+
+  /* ── Main layout: cards + panels ─────────────────────────────────────── */
+
+  .home-main {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+    align-items: start;
+    margin-block-end: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  /* ── Cards grid ──────────────────────────────────────────────────────── */
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(0.75rem, 1.1vw, 1.125rem);
+  }
+
+  .card {
+    border-radius: clamp(0.75rem, 1.4vw, 1.25rem);
+    overflow: hidden;
+    aspect-ratio: 381 / 362;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Card 1: dark + illustration */
+  .card--dark {
+    background-color: var(--carbon);
+    padding: clamp(0.875rem, 1.2vw, 1.25rem);
+    justify-content: space-between;
+  }
+
+  .card--dark .card-illus {
+    flex: 1;
+    width: 83%;
+    align-self: center;
+    object-fit: contain;
+    min-height: 0;
+  }
+
+  .card--dark .card-caption {
+    font-family: var(--font-sans);
+    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
+    font-weight: 400;
+    color: var(--linen);
+    line-height: 1.2;
+    text-align: center;
+    padding-block: clamp(0.5rem, 0.8vw, 0.875rem);
+  }
+
+  /* Card 2: full-bleed photo (arch/union shape) */
+  .card--photo {
+    padding: 0;
+    background-color: var(--chalk);
+  }
+
+  .card-fill-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Card 3: photo background with content overlay */
+  .card--bg-photo {
+    padding: 0;
+    background-color: #e6e6e6;
+  }
+
+  .card-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-overlay {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: visible;
-
-    /* Subtle grid texture */
-    background-image:
-      linear-gradient(
-        color-mix(in srgb, var(--chalk) 55%, transparent) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--chalk) 55%, transparent) 1px,
-        transparent 1px
-      );
-    background-size: 36px 36px;
-  }
-
-  /* ---- Top: brand name + status side by side --------------------------- */
-
-  .hero-top {
-    display: flex;
-    align-items: center;
-    gap: clamp(3rem, 6vw, 6rem);
-  }
-
-  .brand-name {
-    margin: 0;
-    flex-shrink: 0;
-    line-height: 0;
-    color: var(--carbon);
-  }
-
-  .brand-svg {
-    width: clamp(180px, 26vw, 380px);
-    height: auto;
-  }
-
-  .status-label {
-    font-size: clamp(0.75rem, 1.1vw, 1rem);
-    font-weight: 500;
-    letter-spacing: var(--tracking-widest);
-    line-height: var(--leading-snug);
-    color: var(--carbon);
-    text-transform: uppercase;
-    margin: 0;
-    white-space: nowrap;
-  }
-
-  .cursor {
-    display: inline-block;
-    animation: blink 1.1s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-  }
-
-  /* ---- Bottom: globe + tagline ---------------------------------------- */
-
-  .hero-bottom {
-    display: flex;
-    align-items: flex-end;
-    gap: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  /* Globe placeholder — overflows below the card boundary */
-  .globe-wrap {
-    flex-shrink: 0;
-    width: clamp(200px, 24vw, 310px);
-    aspect-ratio: 1 / 1;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    position: relative;
-    bottom: clamp(-2.5rem, -5vw, -4rem); /* overflow below card */
-  }
-
-  .globe-gradient {
-    width: 100%;
     height: 100%;
-    background: radial-gradient(
-      ellipse at 38% 38%,
-      var(--sienna) 0%,
-      var(--fuzzy-wuzzy) 38%,
-      var(--lilac) 68%,
-      var(--washed-blue) 100%
+    padding: clamp(0.875rem, 1.2vw, 1.25rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(21, 29, 31, 0.05) 0%,
+      rgba(21, 29, 31, 0) 40%,
+      rgba(21, 29, 31, 0.45) 100%
     );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16%;
   }
 
-  .globe-wireframe {
-    width: 100%;
-    height: 100%;
-    color: var(--carbon);
-    opacity: 0.5;
+  .card-overlay .card-title {
+    color: var(--linen);
+    text-align: center;
+    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
   }
 
-  /* Tagline */
-  .tagline {
-    font-size: clamp(1.25rem, 2.8vw, 2.5rem);
+  /* Card 4: outlined + wireframe */
+  .card--outline {
+    border: 1.5px solid var(--chalk);
+    background-color: var(--linen);
+    padding: clamp(0.875rem, 1.2vw, 1.25rem);
+    justify-content: space-between;
+  }
+
+  .card-illus--mid {
+    flex: 1;
+    width: 70%;
+    align-self: center;
+    object-fit: contain;
+    min-height: 0;
+  }
+
+  /* Shared card elements */
+  .card-tag {
+    font-family: var(--font-din);
+    font-size: clamp(0.625rem, 0.8vw, 0.875rem);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(21, 29, 31, 0.7);
+    line-height: 1.8;
+  }
+
+  .card--bg-photo .card-tag {
+    color: rgba(246, 241, 223, 0.85);
+  }
+
+  .card-title {
+    font-family: var(--font-sans);
+    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
     font-weight: 400;
-    line-height: var(--leading-snug);
-    letter-spacing: -0.015em;
+    color: var(--carbon);
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  /* ── Tab panels ──────────────────────────────────────────────────────── */
+
+  .tab-panels {
+    padding-block-start: clamp(0.25rem, 0.8vw, 0.75rem);
+  }
+
+  .tab-panel {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 1.5vw, 1.5rem);
+  }
+
+  .panel-eyebrow {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-weight: 400;
     color: var(--carbon);
     margin: 0;
-    padding-bottom: clamp(1rem, 2vw, 2rem);
+    line-height: 1.2;
   }
 
-  /* ---- Footer ---------------------------------------------------------- */
+  .panel-heading {
+    font-family: var(--font-sans);
+    font-size: clamp(1.625rem, 2.8vw, 2.75rem);
+    font-weight: 400;
+    color: var(--carbon);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .panel-body p {
+    font-family: var(--font-sans);
+    font-size: clamp(0.9rem, 1.1vw, 1.25rem);
+    font-weight: 400;
+    color: var(--carbon);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .panel-cta {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    background-color: var(--carbon);
+    color: var(--linen);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-weight: 400;
+    padding: 0 clamp(1.25rem, 2vw, 2rem);
+    height: clamp(44px, 4.3vw, 65px);
+    border-radius: 100px;
+    line-height: 1;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .panel-cta:hover {
+    background-color: var(--ash);
+    color: var(--linen);
+  }
+
+  /* ── Section rule ────────────────────────────────────────────────────── */
+
+  .section-rule {
+    height: 1px;
+    background-color: var(--chalk);
+  }
+
+  /* ── Founding Note ───────────────────────────────────────────────────── */
+
+  .founding-section {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(2rem, 5vw, 6rem);
+    align-items: start;
+    padding-block: clamp(2rem, 4vw, 4rem);
+  }
+
+  .founding-heading {
+    font-family: var(--font-sans);
+    font-size: clamp(1.375rem, 1.8vw, 1.875rem);
+    font-weight: 400;
+    color: var(--carbon);
+    line-height: 1.2;
+    margin: 0 0 clamp(0.875rem, 1.3vw, 1.5rem);
+  }
+
+  .founding-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .founding-body p {
+    font-family: var(--font-sans);
+    font-size: clamp(0.9rem, 1.1vw, 1.25rem);
+    color: var(--carbon);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .founding-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: clamp(0.4rem, 0.8vw, 0.65rem);
+    padding-block-start: 0.25rem;
+  }
+
+  .founding-nav a {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+    font-weight: 400;
+    color: var(--carbon);
+    text-decoration: line-through;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+  }
+
+  /* ── Footer ──────────────────────────────────────────────────────────── */
 
   .home-footer {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 1rem;
-    padding: clamp(1.25rem, 2vw, 1.75rem) clamp(0.75rem, 1.5vw, 1.5rem);
+    padding-block: clamp(1.25rem, 2vw, 1.75rem);
   }
 
   .footer-desc {
-    font-size: var(--text-sm);
-    color: var(--ash);
-    line-height: var(--leading-relaxed);
+    font-family: var(--font-sans);
+    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    color: var(--carbon);
+    line-height: 1.3;
+    letter-spacing: 0.01em;
   }
 
   .footer-desc a {
-    color: var(--ash);
-    text-underline-offset: 0.2em;
-    transition: color var(--transition-fast);
-  }
-
-  .footer-desc a:hover {
     color: var(--carbon);
+    text-underline-offset: 0.15em;
   }
 
   .footer-copy {
-    font-size: var(--text-sm);
-    color: var(--ash);
+    font-family: var(--font-sans);
+    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    color: var(--carbon);
     white-space: nowrap;
+    letter-spacing: 0.01em;
   }
 
-  /* ---- Responsive ------------------------------------------------------- */
+  /* ── Responsive ──────────────────────────────────────────────────────── */
 
-  @media (max-width: 640px) {
-    .home-nav {
-      position: absolute;
+  @media (max-width: 900px) {
+    .home-main {
+      grid-template-columns: 1fr;
     }
 
-    .hero-top {
-      flex-direction: column;
+    .tab-panels {
+      padding-block-start: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tab-bar {
+      flex-wrap: wrap;
+      border-radius: 1.25rem;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      flex: none;
+      height: 40px;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      aspect-ratio: auto;
+      min-height: clamp(220px, 50vw, 320px);
+    }
+
+    .founding-section {
+      grid-template-columns: 1fr;
+    }
+
+    .founding-nav {
       align-items: flex-start;
+    }
+
+    .home-top {
+      flex-direction: column;
       gap: 1.5rem;
     }
 
-    .hero-bottom {
-      flex-direction: column;
+    .home-nav {
       align-items: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
     }
 
-    .globe-wrap {
-      bottom: 0;
+    .home-footer {
+      flex-direction: column;
+      gap: 0.5rem;
     }
   }
 </style>
