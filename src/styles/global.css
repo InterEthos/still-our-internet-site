@@ -8,6 +8,60 @@
 @import './x-browser.css';
 
 /* ---------------------------------------------------------------------------
+   DIN — self-hosted
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-Bold.otf') format('opentype'),
+       url('/fonts/din/DIN-Bold.eot') format('embedded-opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN';
+  src: url('/fonts/din/DIN-BoldItalic.otf') format('opentype'),
+       url('/fonts/din/DIN-BoldItalic.eot') format('embedded-opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
    WhyteInktrap — self-hosted
 --------------------------------------------------------------------------- */
 
