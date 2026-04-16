@@ -2,8 +2,32 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { loadGlobal, loadPage } from "../lib/content";
 
+import globeSvg from "../assets/images/globe.svg";
+import dottedGrid from "../assets/images/dotted-grid.png";
+import stillOurInternet from "../assets/images/still-our-internet.svg";
+
 const global = loadGlobal();
-const { meta } = loadPage("home");
+const { meta, content } = loadPage("home");
+
+const c = content as {
+  tagline: string;
+  tabs: Array<{ id: string; label: string }>;
+  panels: Array<{
+    id: string;
+    eyebrow: string;
+    heading: string;
+    body: string;
+    cta_text: string;
+    cta_href: string;
+  }>;
+  cards: Array<{
+    id: string;
+    style: string;
+    image: string | null;
+  }>;
+  founding_heading: string;
+  founding_body: string[];
+};
 
 const jsonLD = {
   "@context": "https://schema.org",
@@ -13,21 +37,10 @@ const jsonLD = {
   url: global.url,
 };
 
-const tabs = [
-  { id: "anyone",    label: "for Anyone" },
-  { id: "engineers", label: "for Engineers" },
-  { id: "thinkers",  label: "for Thinkers" },
-  { id: "creators",  label: "for Creators" },
-  { id: "donors",    label: "for Donors" },
-  { id: "humans",    label: "for Humans" },
-];
-
-// Temporary Figma asset URLs (expire ~7 days — swap for permanent assets)
-const FIG = {
-  darkCardIllustration: "https://www.figma.com/api/mcp/asset/e173de6f-2ab6-446f-81a9-4f4f73cadd5d",
-  photoCard:            "https://www.figma.com/api/mcp/asset/a1788332-ddd1-4ccf-8774-98921f83d0ec",
-  bgPhotoCard:          "https://www.figma.com/api/mcp/asset/3bd9b83e-a12e-4ff8-a0d6-92167505b3d7",
-  wireframeIllustration:"https://www.figma.com/api/mcp/asset/ef3e0c7c-b293-4453-ba63-cb0ff7f57e83",
+const cardImages: Record<string, ImageMetadata | string> = {
+  globe: globeSvg,
+  "dotted-grid": dottedGrid,
+  "still-our-internet": stillOurInternet,
 };
 ---
 
@@ -53,7 +66,7 @@ const FIG = {
     </div>
 
     <div class="tab-bar" role="tablist" aria-label="Explore by audience">
-      {tabs.map(t => (
+      {c.tabs.map(t => (
         <button
           role="tab"
           class="tab-btn"
@@ -70,104 +83,48 @@ const FIG = {
     <div class="home-main">
 
       <div class="cards-grid" aria-hidden="true">
-
-        <div class="card card--dark">
-          <img
-            src={FIG.darkCardIllustration}
-            alt=""
-            class="card-illus"
-          />
-          <p class="card-caption">Lorem ipsum big number for Engineers</p>
-        </div>
-
-        <div class="card card--photo">
-          <img src={FIG.photoCard} alt="" class="card-fill-img" />
-        </div>
-
-        <div class="card card--bg-photo">
-          <img src={FIG.bgPhotoCard} alt="" class="card-bg-img" />
-          <div class="card-overlay">
-            <span class="card-tag">Lorem ipsum TAG&thinsp;↗</span>
-            <p class="card-title">Lorem ipsum dolor sit amet title</p>
-          </div>
-        </div>
-
-        <div class="card card--outline">
-          <span class="card-tag">Lorem ipsum TAG&thinsp;↗</span>
-          <img
-            src={FIG.wireframeIllustration}
-            alt=""
-            class="card-illus card-illus--mid"
-          />
-          <p class="card-title">Solving lorem ipsum engineering problems</p>
-        </div>
-
+        {c.cards.map((card) => {
+          const imgSrc = card.image ? cardImages[card.image] : undefined;
+          const src = imgSrc ? (typeof imgSrc === "string" ? imgSrc : imgSrc.src) : undefined;
+          return (
+            <div class={`card card--${card.style}`}>
+              {card.style === "dark" && src && (
+                <img src={src} alt="" class="card-illus" />
+              )}
+              {card.style === "photo" && src && (
+                <img src={src} alt="" class="card-fill-img" />
+              )}
+              {card.style === "bg-photo" && src && (
+                <Fragment>
+                  <img src={src} alt="" class="card-bg-img" />
+                  <div class="card-overlay" />
+                </Fragment>
+              )}
+              {card.style === "outline" && src && (
+                <img src={src} alt="" class="card-illus card-illus--mid" />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div class="tab-panels">
-
-        <div id="panel-anyone" role="tabpanel" class="tab-panel" x-show="tab === 'anyone'" x-cloak>
-          <p class="panel-eyebrow">for Anyone</p>
-          <h2 class="panel-heading">The future of digital life is not predetermined.</h2>
-          <div class="panel-body">
-            <p>Our lives are being shaped by the incentives we accept, the protocols we adopt, the assumptions embedded in systems we use on the web, without thinking. Markets, models, interfaces, and institutions are already determining what participation feels like and what we gradually come to accept as normal.</p>
-            <p>The norms accumulate and become our defaults.</p>
-            <p>But our future doesn't belong exclusively to platforms, AI models, or institutions with concentrated power. Not yet, and not inevitably.</p>
-            <p>We can still negotiate the terms. We can still choose how we participate, and we can actively imagine and build other possibilities.</p>
+        {c.panels.map((panel) => (
+          <div
+            id={`panel-${panel.id}`}
+            role="tabpanel"
+            class="tab-panel"
+            x-show={`tab === '${panel.id}'`}
+            x-cloak
+          >
+            <p class="panel-eyebrow">{panel.eyebrow}</p>
+            <h2 class="panel-heading">{panel.heading}</h2>
+            <div class="panel-body">
+              {panel.body.split("|").map((p) => <p>{p}</p>)}
+            </div>
+            <a href={panel.cta_href} class="panel-cta">{panel.cta_text}&thinsp;&#x2197;</a>
           </div>
-          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
-        </div>
-
-        <div id="panel-engineers" role="tabpanel" class="tab-panel" x-show="tab === 'engineers'" x-cloak>
-          <p class="panel-eyebrow">for Engineers</p>
-          <h2 class="panel-heading">Technical decisions are value decisions.</h2>
-          <div class="panel-body">
-            <p>The protocols, APIs, and infrastructure we build determine what becomes possible for billions of people. Engineers are not neutral implementers — they are active participants in shaping the conditions of digital life.</p>
-            <p>Still Our Internet works at the intersection of technical practice and civic responsibility.</p>
-          </div>
-          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
-        </div>
-
-        <div id="panel-thinkers" role="tabpanel" class="tab-panel" x-show="tab === 'thinkers'" x-cloak>
-          <p class="panel-eyebrow">for Thinkers</p>
-          <h2 class="panel-heading">The frameworks we build shape what we can imagine.</h2>
-          <div class="panel-body">
-            <p>Concepts travel. The assumptions embedded in academic research become the assumptions embedded in products, policies, and platforms. Ideas about agency, consent, and participation have consequences.</p>
-            <p>We work to develop frameworks that expand what's imaginable — and what's buildable.</p>
-          </div>
-          <a href="/research" class="panel-cta">Our research&thinsp;↗</a>
-        </div>
-
-        <div id="panel-creators" role="tabpanel" class="tab-panel" x-show="tab === 'creators'" x-cloak>
-          <p class="panel-eyebrow">for Creators</p>
-          <h2 class="panel-heading">Creation is a negotiation with the systems that distribute it.</h2>
-          <div class="panel-body">
-            <p>Algorithms, feeds, and recommendation engines don't just surface content — they shape what gets made. Creators are actors in a larger ecosystem with its own incentives and constraints.</p>
-            <p>Still Our Internet examines these dynamics and works toward conditions where creators retain meaningful agency.</p>
-          </div>
-          <a href="/work" class="panel-cta">Our work&thinsp;↗</a>
-        </div>
-
-        <div id="panel-donors" role="tabpanel" class="tab-panel" x-show="tab === 'donors'" x-cloak>
-          <p class="panel-eyebrow">for Donors</p>
-          <h2 class="panel-heading">The moment for intervention is now.</h2>
-          <div class="panel-body">
-            <p>Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.</p>
-            <p>Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.</p>
-          </div>
-          <a href="/collaborate" class="panel-cta">Work with us&thinsp;↗</a>
-        </div>
-
-        <div id="panel-humans" role="tabpanel" class="tab-panel" x-show="tab === 'humans'" x-cloak>
-          <p class="panel-eyebrow">for Humans</p>
-          <h2 class="panel-heading">You are not the product. You are not the problem. You are the point.</h2>
-          <div class="panel-body">
-            <p>The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.</p>
-            <p>Still Our Internet is a reminder that the future of digital life is still ours to shape.</p>
-          </div>
-          <a href="/about" class="panel-cta">About us&thinsp;↗</a>
-        </div>
-
+        ))}
       </div>
     </div>
 
@@ -175,11 +132,9 @@ const FIG = {
 
     <div class="founding-section">
       <div class="founding-text">
-        <h2 class="founding-heading">Founding Note</h2>
+        <h2 class="founding-heading">{c.founding_heading}</h2>
         <div class="founding-body">
-          <p>Still Our Internet begins from a simple premise: the future of digital life is not predetermined.</p>
-          <p>As AI becomes part of the infrastructure of modern society, we have an opportunity and a responsibility to help shape the conditions under which it develops.</p>
-          <p>The goal is not to resist change for its own sake, nor to embrace it uncritically. It is to build the capacity, the language and the public understanding needed to navigate what comes next with dignity and intention.</p>
+          {c.founding_body.map((p) => <p>{p}</p>)}
         </div>
       </div>
       <nav class="founding-nav" aria-label="Site navigation">
@@ -205,7 +160,7 @@ const FIG = {
 </BaseLayout>
 
 <style>
-  /* ── Page wrapper ────────────────────────────────────────────────────── */
+  /* Page wrapper */
 
   .home {
     display: flex;
@@ -216,7 +171,7 @@ const FIG = {
     background-color: var(--linen);
   }
 
-  /* ── Top: logo + nav ──────────────────────────────────────────────────── */
+  /* Top: logo + nav */
 
   .home-top {
     display: flex;
@@ -234,7 +189,6 @@ const FIG = {
   .home-logo img {
     width: clamp(140px, 18vw, 268px);
     height: auto;
-    color: var(--carbon);
   }
 
   .home-nav {
@@ -244,17 +198,18 @@ const FIG = {
     gap: clamp(0.4rem, 0.8vw, 0.65rem);
   }
 
-  .home-nav a {
+  .home-nav a,
+  .founding-nav a {
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.4vw, 1.5rem);
     font-weight: 400;
     color: var(--carbon);
     text-decoration: line-through;
-    letter-spacing: 0.01em;
+    letter-spacing: var(--tracking-normal);
     pointer-events: none;
   }
 
-  /* ── Tab bar ──────────────────────────────────────────────────────────── */
+  /* Tab bar */
 
   .tab-bar {
     display: flex;
@@ -274,7 +229,7 @@ const FIG = {
     background: transparent;
     padding: 0 clamp(0.5rem, 1.4vw, 1.5rem);
     font-family: var(--font-sans);
-    font-size: clamp(0.8rem, 1.25vw, 1.5rem);
+    font-size: clamp(0.8rem, 1.25vw, 1.5625rem);
     font-weight: 400;
     color: var(--carbon);
     cursor: pointer;
@@ -294,7 +249,7 @@ const FIG = {
     background-color: color-mix(in srgb, var(--chalk) 50%, transparent);
   }
 
-  /* ── Main layout: cards + panels ─────────────────────────────────────── */
+  /* Main layout: cards + panels */
 
   .home-main {
     display: grid;
@@ -304,7 +259,7 @@ const FIG = {
     margin-block-end: clamp(2.5rem, 5vw, 5rem);
   }
 
-  /* ── Cards grid ──────────────────────────────────────────────────────── */
+  /* Cards grid */
 
   .cards-grid {
     display: grid;
@@ -313,7 +268,7 @@ const FIG = {
   }
 
   .card {
-    border-radius: clamp(0.75rem, 1.4vw, 1.25rem);
+    border-radius: clamp(1.5rem, 4vw, 3.68rem);
     overflow: hidden;
     aspect-ratio: 381 / 362;
     position: relative;
@@ -336,15 +291,6 @@ const FIG = {
     min-height: 0;
   }
 
-  .card--dark .card-caption {
-    font-family: var(--font-sans);
-    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
-    font-weight: 400;
-    color: var(--linen);
-    line-height: 1.2;
-    text-align: center;
-    padding-block: clamp(0.5rem, 0.8vw, 0.875rem);
-  }
 
   /* Card 2: full-bleed photo (arch/union shape) */
   .card--photo {
@@ -362,7 +308,7 @@ const FIG = {
   /* Card 3: photo background with content overlay */
   .card--bg-photo {
     padding: 0;
-    background-color: #e6e6e6;
+    background-color: var(--chalk);
   }
 
   .card-bg-img {
@@ -383,16 +329,10 @@ const FIG = {
     padding: clamp(0.875rem, 1.2vw, 1.25rem);
     background: linear-gradient(
       to bottom,
-      rgba(21, 29, 31, 0.05) 0%,
-      rgba(21, 29, 31, 0) 40%,
-      rgba(21, 29, 31, 0.45) 100%
+      color-mix(in srgb, var(--carbon) 5%, transparent) 0%,
+      transparent 40%,
+      color-mix(in srgb, var(--carbon) 45%, transparent) 100%
     );
-  }
-
-  .card-overlay .card-title {
-    color: var(--linen);
-    text-align: center;
-    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
   }
 
   /* Card 4: outlined + wireframe */
@@ -411,31 +351,7 @@ const FIG = {
     min-height: 0;
   }
 
-  /* Shared card elements */
-  .card-tag {
-    font-family: var(--font-din);
-    font-size: clamp(0.625rem, 0.8vw, 0.875rem);
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: rgba(21, 29, 31, 0.7);
-    line-height: 1.8;
-  }
-
-  .card--bg-photo .card-tag {
-    color: rgba(246, 241, 223, 0.85);
-  }
-
-  .card-title {
-    font-family: var(--font-sans);
-    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
-    font-weight: 400;
-    color: var(--carbon);
-    line-height: 1.2;
-    text-align: center;
-  }
-
-  /* ── Tab panels ──────────────────────────────────────────────────────── */
+  /* Tab panels */
 
   .tab-panels {
     padding-block-start: clamp(0.25rem, 0.8vw, 0.75rem);
@@ -449,7 +365,7 @@ const FIG = {
 
   .panel-eyebrow {
     font-family: var(--font-sans);
-    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-size: clamp(1rem, 1.3vw, 1.5625rem);
     font-weight: 400;
     color: var(--carbon);
     margin: 0;
@@ -458,7 +374,7 @@ const FIG = {
 
   .panel-heading {
     font-family: var(--font-sans);
-    font-size: clamp(1.625rem, 2.8vw, 2.75rem);
+    font-size: clamp(1.625rem, 2.8vw, 2.8125rem);
     font-weight: 400;
     color: var(--carbon);
     line-height: 1.2;
@@ -489,7 +405,7 @@ const FIG = {
     color: var(--linen);
     text-decoration: none;
     font-family: var(--font-sans);
-    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-size: clamp(1rem, 1.3vw, 1.5625rem);
     font-weight: 400;
     padding: 0 clamp(1.25rem, 2vw, 2rem);
     height: clamp(44px, 4.3vw, 65px);
@@ -505,14 +421,14 @@ const FIG = {
     color: var(--linen);
   }
 
-  /* ── Section rule ────────────────────────────────────────────────────── */
+  /* Section rule */
 
   .section-rule {
     height: 1px;
     background-color: var(--chalk);
   }
 
-  /* ── Founding Note ───────────────────────────────────────────────────── */
+  /* Founding Note */
 
   .founding-section {
     display: grid;
@@ -553,17 +469,7 @@ const FIG = {
     padding-block-start: 0.25rem;
   }
 
-  .founding-nav a {
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 1.4vw, 1.5rem);
-    font-weight: 400;
-    color: var(--carbon);
-    text-decoration: line-through;
-    letter-spacing: 0.01em;
-    pointer-events: none;
-  }
-
-  /* ── Footer ──────────────────────────────────────────────────────────── */
+  /* Footer */
 
   .home-footer {
     display: flex;
@@ -578,7 +484,7 @@ const FIG = {
     font-size: clamp(0.875rem, 1vw, 1.25rem);
     color: var(--carbon);
     line-height: 1.3;
-    letter-spacing: 0.01em;
+    letter-spacing: var(--tracking-normal);
   }
 
   .footer-desc a {
@@ -588,13 +494,14 @@ const FIG = {
 
   .footer-copy {
     font-family: var(--font-sans);
-    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    font-size: clamp(0.875rem, 1.4vw, 1.5rem);
     color: var(--carbon);
     white-space: nowrap;
-    letter-spacing: 0.01em;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-normal);
   }
 
-  /* ── Responsive ──────────────────────────────────────────────────────── */
+  /* Responsive */
 
   @media (max-width: 900px) {
     .home-main {

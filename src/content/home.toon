@@ -7,3 +7,31 @@ options: null
 
 content:
   tagline: The future of digital life is not predetermined.
+
+  tabs[6]{id,label}:
+    anyone,for Anyone
+    engineers,for Engineers
+    thinkers,for Thinkers
+    creators,for Creators
+    donors,for Donors
+    humans,for Humans
+
+  panels[6]{id,eyebrow,heading,body,cta_text,cta_href}:
+    anyone,for Anyone,The future of digital life is not predetermined.,"Our lives are being shaped by the incentives we accept, the protocols we adopt, the assumptions embedded in systems we use on the web, without thinking. Markets, models, interfaces, and institutions are already determining what participation feels like and what we gradually come to accept as normal.|The norms accumulate and become our defaults.|But our future doesn't belong exclusively to platforms, AI models, or institutions with concentrated power. Not yet, and not inevitably.|We can still negotiate the terms. We can still choose how we participate, and we can actively imagine and build other possibilities.",Our work,/work
+    engineers,for Engineers,Technical decisions are value decisions.,"The protocols, APIs, and infrastructure we build determine what becomes possible for billions of people. Engineers are not neutral implementers — they are active participants in shaping the conditions of digital life.|Still Our Internet works at the intersection of technical practice and civic responsibility.",Our work,/work
+    thinkers,for Thinkers,The frameworks we build shape what we can imagine.,"Concepts travel. The assumptions embedded in academic research become the assumptions embedded in products, policies, and platforms. Ideas about agency, consent, and participation have consequences.|We work to develop frameworks that expand what's imaginable — and what's buildable.",Our research,/research
+    creators,for Creators,Creation is a negotiation with the systems that distribute it.,"Algorithms, feeds, and recommendation engines don't just surface content — they shape what gets made. Creators are actors in a larger ecosystem with its own incentives and constraints.|Still Our Internet examines these dynamics and works toward conditions where creators retain meaningful agency.",Our work,/work
+    donors,for Donors,The moment for intervention is now.,"Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.|Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.",Work with us,/collaborate
+    humans,for Humans,You are not the product. You are not the problem. You are the point.,"The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.|Still Our Internet is a reminder that the future of digital life is still ours to shape.",About us,/about
+
+  cards[4]{id,style,image}:
+    dark-illus,dark,globe
+    photo,photo,null
+    bg-photo,bg-photo,dotted-grid
+    outline,outline,still-our-internet
+
+  founding_heading: Founding Note
+  founding_body[3]:
+    - "Still Our Internet begins from a simple premise: the future of digital life is not predetermined."
+    - "As AI becomes part of the infrastructure of modern society, we have an opportunity and a responsibility to help shape the conditions under which it develops."
+    - "The goal is not to resist change for its own sake, nor to embrace it uncritically. It is to build the capacity, the language and the public understanding needed to navigate what comes next with dignity and intention."
