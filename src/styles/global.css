@@ -382,6 +382,21 @@ p + p {
   color: var(--carbon);
 }
 
+
+/* Pill button — full-radius capsule used across pages */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* ---------------------------------------------------------------------------
    Heading utility classes — apply heading styles to any element without
    changing its semantic role. Mirrors h1–h6 sizing + weight.

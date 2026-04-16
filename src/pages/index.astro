@@ -51,11 +51,15 @@ const cardImages: Record<string, ImageMetadata | string> = {
   jsonLD={jsonLD}
   hideHeader={true}
 >
-  <div class="home" x-data="{ tab: 'anyone' }">
-
+  <div class="home" x-data="homeTab">
     <div class="home-top">
       <a href="/" class="home-logo" aria-label="Still Our Internet — home">
-        <img src="/logo.svg" alt="Still Our Internet" width="268" height="208" />
+        <img
+          src="/logo.svg"
+          alt="Still Our Internet"
+          width="268"
+          height="208"
+        />
       </a>
       <nav class="home-nav" aria-label="Main navigation">
         <a href="/work">Work</a>
@@ -65,66 +69,92 @@ const cardImages: Record<string, ImageMetadata | string> = {
       </nav>
     </div>
 
-    <div class="tab-bar" role="tablist" aria-label="Explore by audience">
-      {c.tabs.map(t => (
-        <button
-          role="tab"
-          class="tab-btn"
-          x-bind:class={`tab === '${t.id}' ? 'is-active' : ''`}
-          x-on:click={`tab = '${t.id}'`}
-          x-bind:aria-selected={`tab === '${t.id}'`}
-          aria-controls={`panel-${t.id}`}
-        >
-          {t.label}
-        </button>
-      ))}
+    <div
+      class="tab-bar"
+      role="tablist"
+      aria-label="Explore by audience"
+      x-ref="tabBar"
+      @mouseleave="resetLavalamp()"
+    >
+      {
+        c.tabs.map((t) => (
+          <button
+            role="tab"
+            class="button tab-btn"
+            x-bind:class={`tab === '${t.id}' ? 'is-active' : ''`}
+            x-on:click={`selectTab('${t.id}', $el)`}
+            x-bind:aria-selected={`tab === '${t.id}'`}
+            aria-controls={`panel-${t.id}`}
+            x-on:mouseenter={`moveLavalamp($el, '${t.id}')`}
+            x-on:focus={`moveLavalamp($el, '${t.id}')`}
+          >
+            {t.label}
+          </button>
+        ))
+      }
+      <span
+        class="tab-lavalamp"
+        :class="{ 'is-ready': lavalampReady }"
+        :style="`left: ${lavalampLeft}px; width: ${lavalampWidth}px; top: ${lavalampTop}px; height: ${lavalampHeight}px`"
+        aria-hidden="true"></span>
     </div>
 
     <div class="home-main">
-
       <div class="cards-grid" aria-hidden="true">
-        {c.cards.map((card) => {
-          const imgSrc = card.image ? cardImages[card.image] : undefined;
-          const src = imgSrc ? (typeof imgSrc === "string" ? imgSrc : imgSrc.src) : undefined;
-          return (
-            <div class={`card card--${card.style}`}>
-              {card.style === "dark" && src && (
-                <img src={src} alt="" class="card-illus" />
-              )}
-              {card.style === "photo" && src && (
-                <img src={src} alt="" class="card-fill-img" />
-              )}
-              {card.style === "bg-photo" && src && (
-                <Fragment>
-                  <img src={src} alt="" class="card-bg-img" />
-                  <div class="card-overlay" />
-                </Fragment>
-              )}
-              {card.style === "outline" && src && (
-                <img src={src} alt="" class="card-illus card-illus--mid" />
-              )}
-            </div>
-          );
-        })}
+        {
+          c.cards.map((card) => {
+            const imgSrc = card.image ? cardImages[card.image] : undefined;
+            const src = imgSrc
+              ? typeof imgSrc === "string"
+                ? imgSrc
+                : imgSrc.src
+              : undefined;
+            return (
+              <div class={`card card--${card.style}`}>
+                {card.style === "dark" && src && (
+                  <img src={src} alt="" class="card-illus" />
+                )}
+                {card.style === "photo" && src && (
+                  <img src={src} alt="" class="card-fill-img" />
+                )}
+                {card.style === "bg-photo" && src && (
+                  <Fragment>
+                    <img src={src} alt="" class="card-bg-img" />
+                    <div class="card-overlay" />
+                  </Fragment>
+                )}
+                {card.style === "outline" && src && (
+                  <img src={src} alt="" class="card-illus card-illus--mid" />
+                )}
+              </div>
+            );
+          })
+        }
       </div>
 
       <div class="tab-panels">
-        {c.panels.map((panel) => (
-          <div
-            id={`panel-${panel.id}`}
-            role="tabpanel"
-            class="tab-panel"
-            x-show={`tab === '${panel.id}'`}
-            x-cloak
-          >
-            <p class="panel-eyebrow">{panel.eyebrow}</p>
-            <h2 class="panel-heading">{panel.heading}</h2>
-            <div class="panel-body">
-              {panel.body.split("|").map((p) => <p>{p}</p>)}
+        {
+          c.panels.map((panel) => (
+            <div
+              id={`panel-${panel.id}`}
+              role="tabpanel"
+              class="tab-panel"
+              x-show={`tab === '${panel.id}'`}
+              x-cloak
+            >
+              <p class="panel-eyebrow">{panel.eyebrow}</p>
+              <h2 class="panel-heading">{panel.heading}</h2>
+              <div class="panel-body">
+                {panel.body.split("|").map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+              <a href={panel.cta_href} class="button panel-cta">
+                {panel.cta_text}&thinsp;&#x2197;
+              </a>
             </div>
-            <a href={panel.cta_href} class="panel-cta">{panel.cta_text}&thinsp;&#x2197;</a>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
 
@@ -150,12 +180,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
     <footer class="home-footer" role="contentinfo">
       <p class="footer-desc">
         Still Our Internet acts on the research and frameworks produced by
-        <a href="https://interethos.org" target="_blank" rel="noopener noreferrer">InterEthos</a>.
-        Neither organization is subsidiary to the other.
+        <a
+          href="https://interethos.org"
+          target="_blank"
+          rel="noopener noreferrer">InterEthos</a
+        >. Neither organization is subsidiary to the other.
       </p>
       <p class="footer-copy">All rights reserved</p>
     </footer>
-
   </div>
 </BaseLayout>
 
@@ -212,6 +244,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   /* Tab bar */
 
   .tab-bar {
+    position: relative;
     display: flex;
     align-items: center;
     background-color: var(--parchment);
@@ -222,22 +255,17 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .tab-btn {
+    position: relative;
+    z-index: 1;
     flex: 1;
-    height: clamp(42px, 4.5vw, 65px);
-    border: none;
-    border-radius: 100px;
+    margin: 0;
     background: transparent;
-    padding: 0 clamp(0.5rem, 1.4vw, 1.5rem);
-    font-family: var(--font-sans);
+    padding: 1.25rem 1.5rem 1rem;
     font-size: clamp(0.8rem, 1.25vw, 1.5625rem);
     font-weight: 400;
+    letter-spacing: normal;
     color: var(--carbon);
-    cursor: pointer;
     white-space: nowrap;
-    line-height: 1;
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast);
   }
 
   .tab-btn.is-active {
@@ -245,8 +273,19 @@ const cardImages: Record<string, ImageMetadata | string> = {
     color: var(--linen);
   }
 
-  .tab-btn:not(.is-active):hover {
-    background-color: color-mix(in srgb, var(--chalk) 50%, transparent);
+  .tab-lavalamp {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 100px;
+    pointer-events: none;
+  }
+
+  .tab-lavalamp.is-ready {
+    transition:
+      left 300ms ease-out,
+      width 300ms ease-out,
+      top 300ms ease-out,
+      height 300ms ease-out;
   }
 
   /* Main layout: cards + panels */
@@ -290,7 +329,6 @@ const cardImages: Record<string, ImageMetadata | string> = {
     object-fit: contain;
     min-height: 0;
   }
-
 
   /* Card 2: full-bleed photo (arch/union shape) */
   .card--photo {
@@ -398,22 +436,13 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .panel-cta {
-    display: inline-flex;
-    align-items: center;
     align-self: flex-start;
     background-color: var(--carbon);
     color: var(--linen);
-    text-decoration: none;
-    font-family: var(--font-sans);
     font-size: clamp(1rem, 1.3vw, 1.5625rem);
     font-weight: 400;
-    padding: 0 clamp(1.25rem, 2vw, 2rem);
-    height: clamp(44px, 4.3vw, 65px);
-    border-radius: 100px;
-    line-height: 1;
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast);
+    letter-spacing: normal;
+    padding: 1.25rem 2rem 1rem;
   }
 
   .panel-cta:hover {
@@ -525,6 +554,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
       height: 40px;
     }
 
+    .tab-btn.is-active {
+      background-color: var(--carbon);
+    }
+
+    .tab-lavalamp {
+      display: none;
+    }
+
     .cards-grid {
       grid-template-columns: 1fr;
     }
@@ -560,3 +597,56 @@ const cardImages: Record<string, ImageMetadata | string> = {
     }
   }
 </style>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("homeTab", () => ({
+      tab: "anyone",
+      hoverTab: null,
+      lavalampLeft: 0,
+      lavalampWidth: 0,
+      lavalampTop: 0,
+      lavalampHeight: 0,
+      lavalampReady: false,
+
+      init() {
+        this.$nextTick(() => {
+          this.resetLavalamp();
+          setTimeout(() => {
+            this.lavalampReady = true;
+          }, 50);
+        });
+      },
+
+      moveLavalamp(el, id) {
+        const bar = this.$refs.tabBar.getBoundingClientRect();
+        const btn = el.getBoundingClientRect();
+        this.lavalampLeft = btn.left - bar.left;
+        this.lavalampWidth = btn.width;
+        this.lavalampTop = btn.top - bar.top;
+        this.lavalampHeight = btn.height;
+        if (id) this.hoverTab = id;
+      },
+
+      resetLavalamp() {
+        this.hoverTab = null;
+        const active = this.$refs.tabBar.querySelector(
+          "[aria-selected='true']",
+        );
+        if (active) {
+          const bar = this.$refs.tabBar.getBoundingClientRect();
+          const btn = active.getBoundingClientRect();
+          this.lavalampLeft = btn.left - bar.left;
+          this.lavalampWidth = btn.width;
+          this.lavalampTop = btn.top - bar.top;
+          this.lavalampHeight = btn.height;
+        }
+      },
+
+      selectTab(id, el) {
+        this.tab = id;
+        this.$nextTick(() => this.moveLavalamp(el));
+      },
+    }));
+  });
+</script>
