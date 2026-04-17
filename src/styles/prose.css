@@ -38,7 +38,7 @@
   }
 
   a {
-    color: var(--carbon);
+    color: var(--timber);
     text-underline-offset: 0.2em;
   }
 
@@ -83,13 +83,13 @@
     height: 5px;
     transform: translateY(-50%);
     border-radius: 9999px;
-    background-color: var(--carbon);
+    background-color: var(--timber);
   }
 
   /* Second-level bullets — hollow ring */
   ul li > ul > li::before {
     background-color: transparent;
-    border: 1px solid var(--carbon);
+    border: 1px solid var(--timber);
   }
 
   ol li {
@@ -153,7 +153,7 @@
   code {
     font-family: var(--font-mono);
     font-size: 0.875em;
-    color: var(--carbon);
+    color: var(--timber);
     background-color: var(--parchment);
     padding: 0.15em 0.4em;
     border-radius: 0.2rem;
@@ -177,7 +177,7 @@
     padding: 0;
     margin: 0;
     background-color: transparent;
-    color: var(--carbon);
+    color: var(--timber);
     font-size: inherit;
     border-radius: 0;
   }

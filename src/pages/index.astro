@@ -5,6 +5,7 @@ import { loadGlobal, loadPage } from "../lib/content";
 import globeSvg from "../assets/images/globe.svg";
 import dottedGrid from "../assets/images/dotted-grid.png";
 import stillOurInternet from "../assets/images/still-our-internet.svg";
+import buttonArrow from "../assets/images/button-arrow.svg";
 
 const global = loadGlobal();
 const { meta, content } = loadPage("home");
@@ -80,7 +81,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
         c.tabs.map((t) => (
           <button
             role="tab"
-            class="button tab-btn"
+            class="button tab-button"
             x-bind:class={`tab === '${t.id}' ? 'is-active' : ''`}
             x-on:click={`selectTab('${t.id}', $el)`}
             x-bind:aria-selected={`tab === '${t.id}'`}
@@ -150,7 +151,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
                 ))}
               </div>
               <a href={panel.cta_href} class="button panel-cta">
-                {panel.cta_text}&thinsp;&#x2197;
+                {panel.cta_text}<img src={buttonArrow.src} alt="" class="button-arrow" />
               </a>
             </div>
           ))
@@ -235,7 +236,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.4vw, 1.5rem);
     font-weight: 400;
-    color: var(--carbon);
+    color: var(--timber);
     text-decoration: line-through;
     letter-spacing: var(--tracking-normal);
     pointer-events: none;
@@ -247,6 +248,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     position: relative;
     display: flex;
     align-items: center;
+    max-width: 92%;
     background-color: var(--parchment);
     border-radius: 100px;
     padding: clamp(6px, 0.65vw, 10px);
@@ -254,22 +256,22 @@ const cardImages: Record<string, ImageMetadata | string> = {
     margin-block-end: clamp(1.5rem, 3vw, 3rem);
   }
 
-  .tab-btn {
+  .tab-button {
     position: relative;
     z-index: 1;
     flex: 1;
     margin: 0;
     background: transparent;
-    padding: 1.25rem 1.5rem 1rem;
+    padding: 1rem 1.5rem 0.625rem;
     font-size: clamp(0.8rem, 1.25vw, 1.5625rem);
     font-weight: 400;
     letter-spacing: normal;
-    color: var(--carbon);
+    color: var(--timber);
     white-space: nowrap;
   }
 
-  .tab-btn.is-active {
-    background-color: var(--carbon);
+  .tab-button.is-active {
+    background-color: var(--timber);
     color: var(--linen);
   }
 
@@ -293,8 +295,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .home-main {
     display: grid;
     grid-template-columns: 1fr 1.1fr;
-    gap: clamp(1.5rem, 3vw, 3.5rem);
-    align-items: start;
+    gap: clamp(2rem, 5vw, 6rem);
+    align-items: center;
     margin-block-end: clamp(2.5rem, 5vw, 5rem);
   }
 
@@ -317,7 +319,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   /* Card 1: dark + illustration */
   .card--dark {
-    background-color: var(--carbon);
+    background-color: var(--timber);
     padding: clamp(0.875rem, 1.2vw, 1.25rem);
     justify-content: space-between;
   }
@@ -367,9 +369,9 @@ const cardImages: Record<string, ImageMetadata | string> = {
     padding: clamp(0.875rem, 1.2vw, 1.25rem);
     background: linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--carbon) 5%, transparent) 0%,
+      color-mix(in srgb, var(--timber) 5%, transparent) 0%,
       transparent 40%,
-      color-mix(in srgb, var(--carbon) 45%, transparent) 100%
+      color-mix(in srgb, var(--timber) 45%, transparent) 100%
     );
   }
 
@@ -405,7 +407,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.3vw, 1.5625rem);
     font-weight: 400;
-    color: var(--carbon);
+    color: var(--timber);
     margin: 0;
     line-height: 1.2;
   }
@@ -414,7 +416,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(1.625rem, 2.8vw, 2.8125rem);
     font-weight: 400;
-    color: var(--carbon);
+    color: var(--timber);
     line-height: 1.2;
     letter-spacing: -0.01em;
     margin: 0;
@@ -430,7 +432,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(0.9rem, 1.1vw, 1.25rem);
     font-weight: 400;
-    color: var(--carbon);
+    color: var(--timber);
     line-height: 1.4;
     margin: 0;
   }
@@ -456,7 +458,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(1.375rem, 1.8vw, 1.875rem);
     font-weight: 400;
-    color: var(--carbon);
+    color: var(--timber);
     line-height: 1.2;
     margin: 0 0 clamp(0.875rem, 1.3vw, 1.5rem);
   }
@@ -470,7 +472,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .founding-body p {
     font-family: var(--font-sans);
     font-size: clamp(0.9rem, 1.1vw, 1.25rem);
-    color: var(--carbon);
+    color: var(--timber);
     line-height: 1.4;
     margin: 0;
   }
@@ -496,20 +498,20 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .footer-desc {
     font-family: var(--font-sans);
     font-size: clamp(0.875rem, 1vw, 1.25rem);
-    color: var(--carbon);
+    color: var(--timber);
     line-height: 1.3;
     letter-spacing: var(--tracking-normal);
   }
 
   .footer-desc a {
-    color: var(--carbon);
+    color: var(--timber);
     text-underline-offset: 0.15em;
   }
 
   .footer-copy {
     font-family: var(--font-sans);
     font-size: clamp(0.875rem, 1.4vw, 1.5rem);
-    color: var(--carbon);
+    color: var(--timber);
     white-space: nowrap;
     line-height: 1.2;
     letter-spacing: var(--tracking-normal);
@@ -534,13 +536,13 @@ const cardImages: Record<string, ImageMetadata | string> = {
       gap: 4px;
     }
 
-    .tab-btn {
+    .tab-button {
       flex: none;
       height: 40px;
     }
 
-    .tab-btn.is-active {
-      background-color: var(--carbon);
+    .tab-button.is-active {
+      background-color: var(--timber);
     }
 
     .tab-lavalamp {

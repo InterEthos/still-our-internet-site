@@ -21,7 +21,7 @@ input::-moz-focus-inner {
 
 select:-moz-focusring {
   color: transparent;
-  text-shadow: 0 0 0 var(--carbon);
+  text-shadow: 0 0 0 var(--timber);
 }
 
 /* ---------------------------------------------------------------------------

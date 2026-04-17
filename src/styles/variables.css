@@ -2,19 +2,20 @@
    /* -------------------------------------------------------------------------
      Colors — Still Our Internet palette (light theme)
   -------------------------------------------------------------------------- */
-   --linen:     #f2ebd9;
-   --parchment: #e8e0d1;
-   --carbon:    #1c1914;
-   --ash:       #6b6358;
-   --chalk:     #cfc7ba;
+   --linen: #f6f1df;
+   --parchment: #ebe4ca;
+   --carbon: #1c1914;
+   --timber: #151d1f;
+   --ash: #6b6358;
+   --chalk: #cfc7ba;
    --cinnabar: #d96060;
 
 
    /* Globe accent gradient */
    --sienna: #e8703a;
    --lilac: #9070a0;
-   --fuzzy-wuzzy:  #c45060;
-   --washed-blue:  #8090b0;
+   --fuzzy-wuzzy: #c45060;
+   --washed-blue: #8090b0;
 
 
 

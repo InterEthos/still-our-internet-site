@@ -197,12 +197,12 @@
 
 ::selection {
   background-color: var(--chalk);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 ::-moz-selection {
   background-color: var(--chalk);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 /* ---------------------------------------------------------------------------
@@ -216,7 +216,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
-  color: var(--carbon);
+  color: var(--timber);
   background-color: var(--linen);
   letter-spacing: var(--tracking-normal);
   display: flex;
@@ -230,7 +230,7 @@ main {
 }
 
 a {
-  color: var(--carbon);
+  color: var(--timber);
   text-underline-offset: 0.2em;
   transition: color var(--transition-fast);
 }
@@ -276,7 +276,7 @@ h6 {
   font-weight: 700;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 p+p {
@@ -288,7 +288,7 @@ p+p {
 --------------------------------------------------------------------------- */
 
 :focus-visible {
-  outline: 1px solid var(--carbon);
+  outline: 1px solid var(--timber);
   outline-offset: 3px;
   border-radius: 0.2rem;
 }
@@ -330,7 +330,7 @@ p+p {
   left: 1rem;
   background: var(--linen);
   border: 1px solid var(--chalk);
-  color: var(--carbon);
+  color: var(--timber);
   padding: 0.5rem 1.25rem;
   border-radius: 0.3rem;
   font-weight: 500;
@@ -370,8 +370,8 @@ p+p {
 
 /* Primary — dark fill, light text */
 .btn-primary {
-  background-color: var(--carbon);
-  border-color: var(--carbon);
+  background-color: var(--timber);
+  border-color: var(--timber);
   color: var(--linen);
 }
 
@@ -385,13 +385,13 @@ p+p {
 .btn-outline {
   background-color: var(--linen);
   border-color: var(--chalk);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 .btn-outline:hover {
   background-color: var(--parchment);
   border-color: var(--chalk);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 /* Ghost — transparent, muted text */
@@ -403,7 +403,7 @@ p+p {
 
 .btn-ghost:hover {
   background-color: var(--parchment);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 
@@ -413,7 +413,7 @@ p+p {
   justify-content: center;
   align-self: flex-start;
   color: var(--linen);
-  background-color: var(--carbon);
+  background-color: var(--timber);
   font-size: clamp(1rem, 1.3vw, 1.5625rem);
   font-family: var(--font-sans);
   font-weight: 400;
@@ -427,8 +427,20 @@ p+p {
   transition: 250ms all;
 }
 
-.button:hover {
+.button:not(.tab-button):hover {
   transform: scale(1.1);
+}
+
+.button-arrow {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0 -0.25rem 0.325rem 1.25rem;
+  flex-shrink: 0;
+  transition: transform 250ms ease;
+}
+
+.button:hover .button-arrow {
+  transform: rotate(45deg);
 }
 
 
@@ -447,7 +459,7 @@ p+p {
   font-weight: 700;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--carbon);
+  color: var(--timber);
 }
 
 .h1 {
@@ -519,14 +531,14 @@ body.no-cursor {
   top: calc(100% + 2px);
   border-left: 0.5rem solid transparent;
   border-right: 0.5rem solid transparent;
-  border-bottom: 0.375rem solid var(--carbon);
+  border-bottom: 0.375rem solid var(--timber);
 }
 
 [data-tooltip]::after {
   content: attr(data-tooltip);
   top: calc(100% + 0.5rem);
-  background-color: var(--carbon);
-  border: 1px solid var(--carbon);
+  background-color: var(--timber);
+  border: 1px solid var(--timber);
   color: var(--linen);
   font-size: var(--text-xs);
   font-weight: 500;
