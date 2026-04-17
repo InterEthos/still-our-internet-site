@@ -2,10 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { loadGlobal, loadPage } from "../lib/content";
 
-import globeSvg from "../assets/images/globe.svg";
-import dottedGrid from "../assets/images/dotted-grid.png";
-import stillOurInternet from "../assets/images/still-our-internet.svg";
+import cardDarkIllus from "../assets/images/card-dark-illustration.svg";
+import cardPhotoArch from "../assets/images/card-photo-arch.png";
+import cardBgPhoto from "../assets/images/card-bg-photo.jpg";
+import cardWireframe from "../assets/images/card-wireframe.svg";
+import cardBgForeground from "../assets/images/card-bg-foreground.svg";
 import buttonArrow from "../assets/images/button-arrow.svg";
+import liminalTrain from "../assets/images/liminal-train.mp4";
 
 const global = loadGlobal();
 const { meta, content } = loadPage("home");
@@ -25,6 +28,8 @@ const c = content as {
     id: string;
     style: string;
     image: string | null;
+    tag: string | null;
+    caption: string | null;
   }>;
   founding_heading: string;
   founding_body: string[];
@@ -39,9 +44,10 @@ const jsonLD = {
 };
 
 const cardImages: Record<string, ImageMetadata | string> = {
-  globe: globeSvg,
-  "dotted-grid": dottedGrid,
-  "still-our-internet": stillOurInternet,
+  "card-dark-illus": cardDarkIllus,
+  "card-photo-arch": cardPhotoArch,
+  "card-bg-photo": cardBgPhoto,
+  "card-wireframe": cardWireframe,
 };
 ---
 
@@ -100,6 +106,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
         aria-hidden="true"></span>
     </div>
 
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <clipPath id="double-arches" clipPathUnits="objectBoundingBox">
+          <path d="M0,0 L1,0 C1,0.276 0.776,0.5 0.5,0.5 C0.224,0.5 0,0.276 0,0 Z M0,0.5 L1,0.5 C1,0.776 0.776,1 0.5,1 C0.224,1 0,0.776 0,0.5 Z" />
+        </clipPath>
+      </defs>
+    </svg>
+
     <div class="home-main">
       <div class="cards-grid" aria-hidden="true">
         {
@@ -111,21 +125,42 @@ const cardImages: Record<string, ImageMetadata | string> = {
                 : imgSrc.src
               : undefined;
             return (
-              <div class={`card card--${card.style}`}>
-                {card.style === "dark" && src && (
-                  <img src={src} alt="" class="card-illus" />
-                )}
-                {card.style === "photo" && src && (
-                  <img src={src} alt="" class="card-fill-img" />
-                )}
-                {card.style === "bg-photo" && src && (
+              <div class={`card card-${card.style}`}>
+                {card.style === "dark" && (
                   <Fragment>
-                    <img src={src} alt="" class="card-bg-img" />
-                    <div class="card-overlay" />
+                    {src && <img src={src} alt="" class="card-illus" />}
+                    {card.caption && <p class="card-caption">{card.caption}</p>}
                   </Fragment>
                 )}
-                {card.style === "outline" && src && (
-                  <img src={src} alt="" class="card-illus card-illus--mid" />
+                {card.style === "video" && (
+                  <div class="card-arches">
+                    {src && <img src={src} alt="" class="card-fill-img" />}
+                    <video
+                      class="card-fill-video"
+                      autoplay
+                      loop
+                      muted
+                      playsinline
+                      src={liminalTrain}
+                    />
+                  </div>
+                )}
+                {card.style === "bg-photo" && (
+                  <Fragment>
+                    {src && <img src={src} alt="" class="card-bg-img" />}
+                    <div class="card-overlay">
+                      {card.tag && <span class="card-tag">{card.tag}</span>}
+                      <img src={cardBgForeground.src} alt="" class="card-fg-img" />
+                      {card.caption && <p class="card-title">{card.caption}</p>}
+                    </div>
+                  </Fragment>
+                )}
+                {card.style === "outline" && (
+                  <Fragment>
+                    {card.tag && <span class="card-tag">{card.tag}</span>}
+                    {src && <img src={src} alt="" class="card-illus card-illus-mid" />}
+                    {card.caption && <p class="card-title">{card.caption}</p>}
+                  </Fragment>
                 )}
               </div>
             );
@@ -318,13 +353,13 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   /* Card 1: dark + illustration */
-  .card--dark {
+  .card-dark {
     background-color: var(--timber);
     padding: clamp(0.875rem, 1.2vw, 1.25rem);
     justify-content: space-between;
   }
 
-  .card--dark .card-illus {
+  .card-dark .card-illus {
     flex: 1;
     width: 83%;
     align-self: center;
@@ -333,9 +368,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   /* Card 2: full-bleed photo (arch/union shape) */
-  .card--photo {
+  .card-video {
     padding: 0;
-    background-color: var(--chalk);
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .card-arches {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    clip-path: url(#double-arches);
   }
 
   .card-fill-img {
@@ -345,8 +389,16 @@ const cardImages: Record<string, ImageMetadata | string> = {
     display: block;
   }
 
+  .card-fill-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* Card 3: photo background with content overlay */
-  .card--bg-photo {
+  .card-bg-photo {
     padding: 0;
     background-color: var(--chalk);
   }
@@ -375,15 +427,58 @@ const cardImages: Record<string, ImageMetadata | string> = {
     );
   }
 
+  .card-caption {
+    font-family: var(--font-sans);
+    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
+    font-weight: 400;
+    color: var(--linen);
+    line-height: var(--leading-tight);
+    text-align: center;
+    padding-block: clamp(0.5rem, 0.8vw, 0.875rem);
+  }
+
+  .card-tag {
+    font-family: var(--font-din);
+    font-size: clamp(0.625rem, 0.8vw, 0.875rem);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--timber) 70%, transparent);
+    line-height: 1.8;
+  }
+
+  .card-bg-photo .card-tag {
+    color: color-mix(in srgb, var(--linen) 85%, transparent);
+  }
+
+  .card-title {
+    font-family: var(--font-sans);
+    font-size: clamp(0.75rem, 1.1vw, 1.375rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: var(--leading-tight);
+    text-align: center;
+  }
+
+  .card-overlay .card-title {
+    color: var(--linen);
+  }
+
+  .card-fg-img {
+    width: 50%;
+    align-self: center;
+    object-fit: contain;
+  }
+
   /* Card 4: outlined + wireframe */
-  .card--outline {
+  .card-outline {
     border: 1.5px solid var(--chalk);
     background-color: var(--linen);
     padding: clamp(0.875rem, 1.2vw, 1.25rem);
     justify-content: space-between;
   }
 
-  .card-illus--mid {
+  .card-illus-mid {
     flex: 1;
     width: 70%;
     align-self: center;

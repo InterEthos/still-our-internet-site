@@ -24,11 +24,11 @@ content:
     donors,for Donors,The moment for intervention is now.,"Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.|Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.",Work with us,/collaborate
     humans,for Humans,You are not the product. You are not the problem. You are the point.,"The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.|Still Our Internet is a reminder that the future of digital life is still ours to shape.",About us,/about
 
-  cards[4]{id,style,image}:
-    dark-illus,dark,globe
-    photo,photo,null
-    bg-photo,bg-photo,dotted-grid
-    outline,outline,still-our-internet
+  cards[4]{id,style,image,tag,caption}:
+    dark-illus,dark,card-dark-illus,null,Lorem ipsum big number for Engineers
+    video,video,card-photo-arch,null,null
+    bg-photo,bg-photo,card-bg-photo,LOREM IPSUM TAG,Lorem ipsum dolor sit amet title
+    outline,outline,card-wireframe,LOREM IPSUM TAG,Solving lorem ipsum engineering problems
 
   founding_heading: Founding Note
   founding_body[3]:
