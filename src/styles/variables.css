@@ -1,21 +1,21 @@
 :root {
    /* -------------------------------------------------------------------------
-     Colors — Still Our Internet palette (light theme)
+     Colors
   -------------------------------------------------------------------------- */
    --linen: #f6f1df;
    --parchment: #ebe4ca;
-   --carbon: #1c1914;
+   --carbon: #242222;
    --timber: #151d1f;
    --ash: #6b6358;
    --chalk: #cfc7ba;
    --cinnabar: #d96060;
 
-
-   /* Globe accent gradient */
-   --sienna: #e8703a;
-   --lilac: #9070a0;
+   /* Dawn accent gradient */
+   --porsche: #e7b049;
+   --christine: #fd7a31;
+   --new-york-pink: #db9b91;
    --fuzzy-wuzzy: #c45060;
-   --washed-blue: #8090b0;
+   --spindle: #b0cce4;
 
 
 

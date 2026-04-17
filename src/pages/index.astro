@@ -3,10 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { loadGlobal, loadPage } from "../lib/content";
 
 import cardDarkIllus from "../assets/images/card-dark-illustration.svg";
-import cardPhotoArch from "../assets/images/card-photo-arch.png";
-import cardBgPhoto from "../assets/images/card-bg-photo.jpg";
+import liminalTrainFallback from "../assets/images/liminal-train-fallback.png";
+import blurredDawnGradient from "../assets/images/blurred-dawn-gradient.jpg";
 import cardWireframe from "../assets/images/card-wireframe.svg";
-import cardBgForeground from "../assets/images/card-bg-foreground.svg";
+import cardGlobe from "../assets/images/globe.svg";
+import cardUndoneLabs from "../assets/images/undone-labs.svg";
+import dottedGrid from "../assets/images/dotted-grid.svg";
+import arrowLink from "../assets/images/arrow-link.svg";
 import buttonArrow from "../assets/images/button-arrow.svg";
 import liminalTrain from "../assets/images/liminal-train.mp4";
 
@@ -31,6 +34,11 @@ const c = content as {
     tag: string | null;
     caption: string | null;
   }>;
+  upnext_heading: string;
+  upnext_title: string;
+  upnext_body: string[];
+  upnext_cta: string;
+  upnext_quote: string;
   founding_heading: string;
   founding_body: string[];
 };
@@ -45,9 +53,10 @@ const jsonLD = {
 
 const cardImages: Record<string, ImageMetadata | string> = {
   "card-dark-illus": cardDarkIllus,
-  "card-photo-arch": cardPhotoArch,
-  "card-bg-photo": cardBgPhoto,
+  "liminal-train-fallback": liminalTrainFallback,
+  "blurred-dawn-gradient": blurredDawnGradient,
   "card-wireframe": cardWireframe,
+  "card-globe": cardGlobe,
 };
 ---
 
@@ -59,7 +68,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   hideHeader={true}
 >
   <div class="home" x-data="homeTab">
-    <div class="home-top">
+    <header class="home-top">
       <a href="/" class="home-logo" aria-label="Still Our Internet — home">
         <img
           src="/logo.svg"
@@ -74,7 +83,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
         <a href="/research">Research</a>
         <a href="/collaborate">Collaborate</a>
       </nav>
-    </div>
+    </header>
 
     <div
       class="tab-bar"
@@ -109,12 +118,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
     <svg width="0" height="0" style="position:absolute">
       <defs>
         <clipPath id="double-arches" clipPathUnits="objectBoundingBox">
-          <path d="M0,0 L1,0 C1,0.276 0.776,0.5 0.5,0.5 C0.224,0.5 0,0.276 0,0 Z M0,0.5 L1,0.5 C1,0.776 0.776,1 0.5,1 C0.224,1 0,0.776 0,0.5 Z" />
+          <path
+            d="M0,0 L1,0 C1,0.276 0.776,0.5 0.5,0.5 C0.224,0.5 0,0.276 0,0 Z M0,0.5 L1,0.5 C1,0.776 0.776,1 0.5,1 C0.224,1 0,0.776 0,0.5 Z"
+          ></path>
         </clipPath>
       </defs>
     </svg>
 
-    <div class="home-main">
+    <section class="home-main">
       <div class="cards-grid" aria-hidden="true">
         {
           c.cards.map((card) => {
@@ -147,10 +158,19 @@ const cardImages: Record<string, ImageMetadata | string> = {
                 )}
                 {card.style === "bg-photo" && (
                   <Fragment>
-                    {src && <img src={src} alt="" class="card-bg-img" />}
+                    {src && (
+                      <div
+                        class="dawn-gradient"
+                        style={`background-image: url(${src})`}
+                      />
+                    )}
                     <div class="card-overlay">
                       {card.tag && <span class="card-tag">{card.tag}</span>}
-                      <img src={cardBgForeground.src} alt="" class="card-fg-img" />
+                      <img
+                        src={cardUndoneLabs.src}
+                        alt=""
+                        class="card-fg-img"
+                      />
                       {card.caption && <p class="card-title">{card.caption}</p>}
                     </div>
                   </Fragment>
@@ -158,7 +178,9 @@ const cardImages: Record<string, ImageMetadata | string> = {
                 {card.style === "outline" && (
                   <Fragment>
                     {card.tag && <span class="card-tag">{card.tag}</span>}
-                    {src && <img src={src} alt="" class="card-illus card-illus-mid" />}
+                    {src && (
+                      <img src={src} alt="" class="card-illus card-illus-mid" />
+                    )}
                     {card.caption && <p class="card-title">{card.caption}</p>}
                   </Fragment>
                 )}
@@ -186,17 +208,38 @@ const cardImages: Record<string, ImageMetadata | string> = {
                 ))}
               </div>
               <a href={panel.cta_href} class="button panel-cta">
-                {panel.cta_text}<img src={buttonArrow.src} alt="" class="button-arrow" />
+                {panel.cta_text}
+                <img src={buttonArrow.src} alt="" class="button-arrow" />
               </a>
             </div>
           ))
         }
       </div>
-    </div>
+    </section>
 
-    <div class="section-rule" role="separator"></div>
+    <section
+      class="upnext-card"
+      style={`--dot-pattern: url(${dottedGrid.src})`}
+    >
+      <div class="upnext-left">
+        <h2 class="upnext-heading">{c.upnext_heading}</h2>
+        <p class="upnext-quote">{c.upnext_quote}</p>
+      </div>
+      <div class="upnext-right">
+        <div class="upnext-title-row">
+          <h3 class="upnext-title">{c.upnext_title}</h3>
+          <img src={arrowLink.src} alt="" class="upnext-arrow" />
+        </div>
+        <div class="upnext-body">
+          {c.upnext_body.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="upnext-cta"><em>{c.upnext_cta}</em></p>
+      </div>
+    </section>
 
-    <div class="founding-section">
+    <hr class="section-rule" />
+
+    <section class="founding-section">
       <div class="founding-text">
         <h2 class="founding-heading">{c.founding_heading}</h2>
         <div class="founding-body">
@@ -209,20 +252,23 @@ const cardImages: Record<string, ImageMetadata | string> = {
         <a href="/research">Research</a>
         <a href="/collaborate">Collaborate</a>
       </nav>
-    </div>
+    </section>
 
-    <div class="section-rule" role="separator"></div>
+    <hr class="section-rule" />
 
     <footer class="home-footer" role="contentinfo">
       <p class="footer-desc">
-        Still Our Internet acts on the research and frameworks produced by
+        Still Our *-* Internet acts on the research and frameworks produced by
         <a
           href="https://interethos.org"
           target="_blank"
-          rel="noopener noreferrer">InterEthos</a
-        >. Neither organization is subsidiary to the other.
+          rel="noopener noreferrer">InterEthos.org</a
+        >
+        Neither organization is subsidiary to the other.
       </p>
-      <p class="footer-copy">All rights reserved</p>
+      <p class="footer-copy">
+        &copy; Still Our Internet. Some rights reserved.
+      </p>
     </footer>
   </div>
 </BaseLayout>
@@ -344,7 +390,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .card {
-    border-radius: clamp(1.5rem, 4vw, 3.68rem);
+    border-radius: 2rem;
     overflow: hidden;
     aspect-ratio: 381 / 362;
     position: relative;
@@ -352,10 +398,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
     flex-direction: column;
   }
 
-  /* Card 1: dark + illustration */
+  /* Card 1: abstract line graph */
   .card-dark {
     background-color: var(--timber);
-    padding: clamp(0.875rem, 1.2vw, 1.25rem);
+    padding: 5% 6%;
     justify-content: space-between;
   }
 
@@ -367,11 +413,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
     min-height: 0;
   }
 
-  /* Card 2: full-bleed photo (arch/union shape) */
+  /* Card 2: double-arch video */
   .card-video {
     padding: 0;
     background: transparent;
     border-radius: 0;
+    border: 0;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
     overflow: visible;
   }
 
@@ -397,18 +446,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
     object-fit: cover;
   }
 
-  /* Card 3: photo background with content overlay */
-  .card-bg-photo {
+  /* Card 3: undone labs dawn gradient */
+  .blurred-dawn-gradient {
     padding: 0;
     background-color: var(--chalk);
   }
 
-  .card-bg-img {
+  .dawn-gradient {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background-size: 130% auto;
+    background-position: 30% 60%;
+    background-repeat: no-repeat;
   }
 
   .card-overlay {
@@ -416,25 +465,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
-    padding: clamp(0.875rem, 1.2vw, 1.25rem);
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--timber) 5%, transparent) 0%,
-      transparent 40%,
-      color-mix(in srgb, var(--timber) 45%, transparent) 100%
-    );
+    padding: 5% 6%;
   }
 
   .card-caption {
+    padding: 0 2rem;
     font-family: var(--font-sans);
     font-size: clamp(0.75rem, 1.1vw, 1.375rem);
     font-weight: 400;
     color: var(--linen);
     line-height: var(--leading-tight);
     text-align: center;
-    padding-block: clamp(0.5rem, 0.8vw, 0.875rem);
   }
 
   .card-tag {
@@ -442,12 +484,13 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-size: clamp(0.625rem, 0.8vw, 0.875rem);
     font-weight: 500;
     letter-spacing: var(--tracking-wide);
+    margin: 0.325rem 0 0 1.25rem;
     text-transform: uppercase;
     color: color-mix(in srgb, var(--timber) 70%, transparent);
     line-height: 1.8;
   }
 
-  .card-bg-photo .card-tag {
+  .blurred-dawn-gradient .card-tag {
     color: color-mix(in srgb, var(--linen) 85%, transparent);
   }
 
@@ -455,35 +498,36 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-family: var(--font-sans);
     font-size: clamp(0.75rem, 1.1vw, 1.375rem);
     font-weight: 400;
+    text-align: center;
     color: var(--timber);
     line-height: var(--leading-tight);
-    text-align: center;
   }
 
   .card-overlay .card-title {
-    color: var(--linen);
+    color: var(--timber);
   }
 
   .card-fg-img {
-    width: 50%;
+    width: 45%;
+    height: 65%;
+    padding: 1rem 0;
     align-self: center;
     object-fit: contain;
   }
 
-  /* Card 4: outlined + wireframe */
+  /* Card 4: distorted wireframe */
   .card-outline {
     border: 1.5px solid var(--chalk);
     background-color: var(--linen);
-    padding: clamp(0.875rem, 1.2vw, 1.25rem);
+    padding: 5% 6%;
     justify-content: space-between;
   }
 
   .card-illus-mid {
-    flex: 1;
-    width: 70%;
+    width: 48%;
+    height: 65%;
     align-self: center;
     object-fit: contain;
-    min-height: 0;
   }
 
   /* Tab panels */
@@ -532,10 +576,87 @@ const cardImages: Record<string, ImageMetadata | string> = {
     margin: 0;
   }
 
+  /* Up next */
+
+  .upnext-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(2rem, 4vw, 5rem);
+    background: var(--parchment) var(--dot-pattern) repeat top left / 0.5%;
+    border-radius: clamp(1.5rem, 3vw, 3.125rem);
+    padding: clamp(2rem, 3vw, 3rem);
+    margin-block-end: clamp(2rem, 4vw, 4rem);
+  }
+
+  .upnext-heading {
+    font-family: var(--font-sans);
+    font-size: clamp(1.375rem, 1.8vw, 1.875rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: var(--leading-tight);
+    margin: 0 0 clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .upnext-quote {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: var(--leading-tight);
+    margin: 0;
+  }
+
+  .upnext-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-block-end: clamp(1rem, 1.5vw, 1.5rem);
+  }
+
+  .upnext-title {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: var(--leading-tight);
+    margin: 0;
+  }
+
+  .upnext-arrow {
+    width: clamp(1rem, 1.2vw, 1.25rem);
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .upnext-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .upnext-body p {
+    font-family: var(--font-sans);
+    font-size: clamp(0.9rem, 1.1vw, 1.25rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .upnext-cta {
+    font-family: var(--font-sans);
+    font-size: clamp(0.9rem, 1.1vw, 1.25rem);
+    font-weight: 400;
+    color: var(--timber);
+    line-height: 1.4;
+    margin: 1rem 0 0;
+  }
+
   /* Section rule */
 
   .section-rule {
     height: 1px;
+    border: none;
     background-color: var(--chalk);
   }
 
@@ -566,7 +687,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   .founding-body p {
     font-family: var(--font-sans);
-    font-size: clamp(0.9rem, 1.1vw, 1.25rem);
+    font-size: clamp(1rem, 1.2vw, 1.375rem);
     color: var(--timber);
     line-height: 1.4;
     margin: 0;
@@ -593,20 +714,20 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .footer-desc {
     font-family: var(--font-sans);
     font-size: clamp(0.875rem, 1vw, 1.25rem);
-    color: var(--timber);
+    color: #3a362c;
     line-height: 1.3;
     letter-spacing: var(--tracking-normal);
   }
 
   .footer-desc a {
-    color: var(--timber);
+    color: #3a362c;
     text-underline-offset: 0.15em;
   }
 
   .footer-copy {
     font-family: var(--font-sans);
-    font-size: clamp(0.875rem, 1.4vw, 1.5rem);
-    color: var(--timber);
+    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    color: #3a362c;
     white-space: nowrap;
     line-height: 1.2;
     letter-spacing: var(--tracking-normal);
@@ -625,6 +746,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   @media (max-width: 640px) {
+    .upnext-card {
+      grid-template-columns: 1fr;
+    }
+
     .tab-bar {
       flex-wrap: wrap;
       border-radius: 1.25rem;

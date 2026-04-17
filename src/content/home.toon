@@ -13,7 +13,7 @@ content:
     engineers,for Engineers
     thinkers,for Thinkers
     creators,for Creators
-    donors,for Donors
+    supporters,for Supporters
     humans,for Humans
 
   panels[6]{id,eyebrow,heading,body,cta_text,cta_href}:
@@ -21,14 +21,23 @@ content:
     engineers,for Engineers,Technical decisions are value decisions.,"The protocols, APIs, and infrastructure we build determine what becomes possible for billions of people. Engineers are not neutral implementers — they are active participants in shaping the conditions of digital life.|Still Our Internet works at the intersection of technical practice and civic responsibility.",Our work,/work
     thinkers,for Thinkers,The frameworks we build shape what we can imagine.,"Concepts travel. The assumptions embedded in academic research become the assumptions embedded in products, policies, and platforms. Ideas about agency, consent, and participation have consequences.|We work to develop frameworks that expand what's imaginable — and what's buildable.",Our research,/research
     creators,for Creators,Creation is a negotiation with the systems that distribute it.,"Algorithms, feeds, and recommendation engines don't just surface content — they shape what gets made. Creators are actors in a larger ecosystem with its own incentives and constraints.|Still Our Internet examines these dynamics and works toward conditions where creators retain meaningful agency.",Our work,/work
-    donors,for Donors,The moment for intervention is now.,"Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.|Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.",Work with us,/collaborate
+    supporters,for Supporters,The moment for intervention is now.,"Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.|Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.",Work with us,/collaborate
     humans,for Humans,You are not the product. You are not the problem. You are the point.,"The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.|Still Our Internet is a reminder that the future of digital life is still ours to shape.",About us,/about
 
   cards[4]{id,style,image,tag,caption}:
-    dark-illus,dark,card-dark-illus,null,Lorem ipsum big number for Engineers
-    video,video,card-photo-arch,null,null
-    bg-photo,bg-photo,card-bg-photo,LOREM IPSUM TAG,Lorem ipsum dolor sit amet title
-    outline,outline,card-wireframe,LOREM IPSUM TAG,Solving lorem ipsum engineering problems
+    dark-illus,dark,card-dark-illus,null,Emerging right to human decision
+    video,video,liminal-train-fallback,null,null
+    bg-photo,bg-photo,blurred-dawn-gradient,OPEN SOURCE TOOLS,"starters, libraries and modules"
+    outline,outline,card-globe,HOW WE GOT HERE,the distorted www
+
+  upnext_heading: Up next
+  upnext_title: The Firsthand Protocol
+  upnext_body[3]:
+    - "As AI becomes more embedded in products, services and institutions, people are increasingly asked to trust systems they cannot clearly see, interpret or challenge."
+    - "Firsthand Protocol is Still Our Internet's first project — a lightweight public framework and prototype tool designed to help organizations communicate where AI is being used, what role humans still play, what level of review exists, and what safeguards and appeal paths are in place."
+    - "The aim is not to discourage the use of AI. It is to make its use more legible, more accountable and more consistent with human dignity and agency."
+  upnext_cta: "We are building this in the open and inviting contributors to help shape it. If this work is yours too, we'd like to hear from you."
+  upnext_quote: "*_* Firsthand Protocol gives users and the organizations serving them — a shared language and a visible signal for human involvement in automated decisions."
 
   founding_heading: Founding Note
   founding_body[3]:

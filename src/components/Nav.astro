@@ -1,15 +1,15 @@
 ---
 const navLinks = [
-  { label: 'Work',        href: '/work'        },
-  { label: 'About',       href: '/about'       },
-  { label: 'Research',    href: '/research'    },
-  { label: 'Collaborate', href: '/collaborate' },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Research", href: "/research" },
+  { label: "Collaborate", href: "/collaborate" },
 ];
 
 const { pathname } = Astro.url;
 
 function isActive(href: string): boolean {
-  return href === '/' ? pathname === '/' : pathname.startsWith(href);
+  return href === "/" ? pathname === "/" : pathname.startsWith(href);
 }
 ---
 
@@ -21,7 +21,6 @@ function isActive(href: string): boolean {
   - Transition is disabled on init so the indicator doesn't slide in from 0,0
 -->
 <nav class="site-nav" aria-label="Main navigation" x-data="siteNav">
-
   <button
     class="nav-toggle"
     :class="{ 'is-open': open }"
@@ -48,31 +47,31 @@ function isActive(href: string): boolean {
     @mouseleave="reset()"
   >
     {/* temporarily disable nav */}
-    {navLinks.map(({ label, href }) => (
-      <li>
-        <a
-          href={href}
-          class="nav-link"
-          aria-current={isActive(href) ? 'page' : undefined}
-          @mouseenter="move($el)"
-          @focus="move($el)"
-          aria-disabled="true"
-          tabindex="-1"
-          onclick="return false;"
-        >
-          {label}
-        </a>
-      </li>
-    ))}
+    {
+      navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class="nav-link"
+            aria-current={isActive(href) ? "page" : undefined}
+            @mouseenter="move($el)"
+            @focus="move($el)"
+            aria-disabled="true"
+            tabindex="-1"
+            onclick="return false;"
+          >
+            {label}
+          </a>
+        </li>
+      ))
+    }
 
     <span
       class="nav-indicator"
       :class="{ 'is-ready': ready }"
       :style="`left: ${left}px; width: ${width}px`"
-      aria-hidden="true"
-    ></span>
+      aria-hidden="true"></span>
   </ul>
-
 </nav>
 
 <!--
@@ -80,10 +79,10 @@ function isActive(href: string): boolean {
   alpine:init to register the component before Alpine processes the DOM.
 -->
 <script is:inline>
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('siteNav', () => ({
-      open:  false,
-      left:  0,
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("siteNav", () => ({
+      open: false,
+      left: 0,
       width: 0,
       ready: false,
 
@@ -92,14 +91,16 @@ function isActive(href: string): boolean {
           const active = this.$refs.menu.querySelector('[aria-current="page"]');
           if (active) this.move(active);
           // Enable transition only after the initial snap
-          setTimeout(() => { this.ready = true; }, 50);
+          setTimeout(() => {
+            this.ready = true;
+          }, 50);
         });
       },
 
       move(el) {
         const menu = this.$refs.menu.getBoundingClientRect();
         const item = el.getBoundingClientRect();
-        this.left  = item.left - menu.left;
+        this.left = item.left - menu.left;
         this.width = item.width;
       },
 
@@ -146,11 +147,11 @@ function isActive(href: string): boolean {
     cursor: default;
     pointer-events: none;
     padding-block: 0.25rem;
-    transition: color var(--transition-fast);
+    transition: color var(--transition-base);
   }
 
   .nav-link:hover,
-  .nav-link[aria-current='page'] {
+  .nav-link[aria-current="page"] {
     color: var(--timber);
   }
 
@@ -166,7 +167,9 @@ function isActive(href: string): boolean {
   }
 
   .nav-indicator.is-ready {
-    transition: left 250ms ease-out, width 250ms ease-out;
+    transition:
+      left 350ms ease-out,
+      width 250ms ease-out;
   }
 
   /* ---- Hamburger icon -------------------------------------------------- */
@@ -186,7 +189,7 @@ function isActive(href: string): boolean {
     transform-origin: center;
     transition:
       transform var(--transition-base),
-      opacity  var(--transition-base);
+      opacity var(--transition-base);
   }
 
   .nav-toggle.is-open .hamburger span:nth-child(1) {
@@ -213,7 +216,7 @@ function isActive(href: string): boolean {
       padding: 0.5rem;
       color: var(--timber);
       border-radius: 0.3rem;
-      transition: background-color var(--transition-fast);
+      transition: background-color var(--transition-base);
     }
 
     .nav-toggle:hover {
@@ -250,7 +253,7 @@ function isActive(href: string): boolean {
       padding: 0.75rem 1rem;
     }
 
-    .nav-link[aria-current='page'] {
+    .nav-link[aria-current="page"] {
       background-color: var(--parchment);
       color: var(--timber);
     }

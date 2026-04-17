@@ -232,7 +232,7 @@ main {
 a {
   color: var(--timber);
   text-underline-offset: 0.2em;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-base);
 }
 
 a:hover {
@@ -337,7 +337,7 @@ p+p {
   font-size: var(--text-sm);
   text-decoration: none;
   z-index: var(--z-modal);
-  transition: top var(--transition-fast);
+  transition: top var(--transition-base);
 }
 
 .skip-link:focus {
@@ -363,9 +363,9 @@ p+p {
   cursor: pointer;
   border: 1px solid transparent;
   transition:
-    background-color var(--transition-fast),
-    border-color var(--transition-fast),
-    color var(--transition-fast);
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base);
 }
 
 /* Primary — dark fill, light text */
@@ -424,7 +424,7 @@ p+p {
   border-radius: 6.25rem;
   padding: 1.25rem 2rem 0.9rem;
   cursor: pointer;
-  transition: 250ms all;
+  transition: var(--transition-base)
 }
 
 .button:not(.tab-button):hover {
@@ -436,7 +436,7 @@ p+p {
   height: 0.55rem;
   margin: 0 -0.25rem 0.325rem 1.25rem;
   flex-shrink: 0;
-  transition: transform 250ms ease;
+  transition: transform 350ms ease;
 }
 
 .button:hover .button-arrow {
@@ -575,10 +575,10 @@ body.no-cursor {
 --------------------------------------------------------------------------- */
 
 .magnify-onhover {
-  transition: transform 250ms ease-out;
+  transition: transform 350ms ease-out;
 }
 
 .magnify-onhover:hover {
-  transition: transform 250ms ease-in;
+  transition: transform 350ms ease-in;
   transform: scale(1.05);
 }

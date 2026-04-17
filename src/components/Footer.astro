@@ -1,5 +1,5 @@
 ---
-import { loadGlobal } from '../lib/content';
+import { loadGlobal } from "../lib/content";
 
 const { name } = loadGlobal();
 const year = new Date().getFullYear();
@@ -9,7 +9,9 @@ const year = new Date().getFullYear();
   <div class="container footer-inner">
     <p class="footer-desc">
       Still Our *-* Internet acts on the research and frameworks produced by
-      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer">InterEthos.org</a><br>
+      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer"
+        >InterEthos.org</a
+      ><br />
       Neither organization is subsidiary to the other.
     </p>
     <p class="footer-copy">
@@ -42,7 +44,7 @@ const year = new Date().getFullYear();
   .footer-desc a {
     color: var(--ash);
     text-underline-offset: 0.2em;
-    transition: color var(--transition-fast);
+    transition: color var(--transition-base);
   }
 
   .footer-desc a:hover {
