@@ -190,7 +190,11 @@ const cardImages: Record<string, ImageMetadata | string> = {
         }
       </div>
 
-      <div class="tab-panels">
+      <div
+        class="tab-panels"
+        x-ref="tabPanels"
+        :style="`height: ${panelHeight}px`"
+      >
         {
           c.panels.map((panel) => (
             <div
@@ -376,7 +380,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .home-main {
     display: grid;
     grid-template-columns: 1fr 1.1fr;
-    gap: clamp(2rem, 5vw, 6rem);
+    gap: clamp(2rem, 7vw, 8rem);
     align-items: center;
     margin-block-end: clamp(2.5rem, 5vw, 5rem);
   }
@@ -501,6 +505,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     text-align: center;
     color: var(--timber);
     line-height: var(--leading-tight);
+    margin-top: 3%;
   }
 
   .card-overlay .card-title {
@@ -508,11 +513,11 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .card-fg-img {
-    width: 45%;
-    height: 65%;
-    padding: 1rem 0;
+    max-height: 65%;
+    flex: 1;
     align-self: center;
     object-fit: contain;
+    padding: 15% 0 15%;
   }
 
   /* Card 4: distorted wireframe */
@@ -520,20 +525,24 @@ const cardImages: Record<string, ImageMetadata | string> = {
     border: 1.5px solid var(--chalk);
     background-color: var(--linen);
     padding: 5% 6%;
-    justify-content: space-between;
   }
 
   .card-illus-mid {
-    width: 48%;
-    height: 65%;
+    max-height: 65%;
+    flex: 1;
     align-self: center;
     object-fit: contain;
+    min-height: 0;
+    padding: 5% 0 5%;
   }
 
   /* Tab panels */
 
   .tab-panels {
+    position: relative;
+    overflow: hidden;
     padding-block-start: clamp(0.25rem, 0.8vw, 0.75rem);
+    transition: height 350ms ease;
   }
 
   .tab-panel {
@@ -581,7 +590,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   .upnext-card {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: clamp(2rem, 4vw, 5rem);
+    gap: clamp(3rem, 8vw, 10rem);
     background: var(--parchment) var(--dot-pattern) repeat top left / 0.5%;
     border-radius: clamp(1.5rem, 3vw, 3.125rem);
     padding: clamp(2rem, 3vw, 3rem);
@@ -597,13 +606,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
     margin: 0 0 clamp(1.5rem, 3vw, 3rem);
   }
 
+  .upnext-left {
+    display: flex;
+    flex-direction: column;
+  }
+
   .upnext-quote {
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.3vw, 1.5rem);
     font-weight: 400;
     color: var(--timber);
     line-height: var(--leading-tight);
-    margin: 0;
+    margin: auto 0 0;
   }
 
   .upnext-title-row {
@@ -705,9 +719,9 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   .home-footer {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 15rem;
     padding-block: clamp(1.25rem, 2vw, 1.75rem);
   }
 
@@ -810,6 +824,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     Alpine.data("homeTab", () => ({
       tab: "anyone",
       hoverTab: null,
+      panelHeight: 0,
       lavalampLeft: 0,
       lavalampWidth: 0,
       lavalampTop: 0,
@@ -819,10 +834,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
       init() {
         this.$nextTick(() => {
           this.resetLavalamp();
+          this.measurePanel();
           setTimeout(() => {
             this.lavalampReady = true;
           }, 50);
         });
+      },
+
+      measurePanel() {
+        const panel = this.$refs.tabPanels?.querySelector(
+          "[role='tabpanel']:not([style*='display: none'])",
+        );
+        if (panel) this.panelHeight = panel.scrollHeight;
       },
 
       moveLavalamp(el, id) {
@@ -852,7 +875,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
       selectTab(id, el) {
         this.tab = id;
-        this.$nextTick(() => this.moveLavalamp(el));
+        this.$nextTick(() => {
+          this.moveLavalamp(el);
+          this.measurePanel();
+        });
       },
     }));
   });
