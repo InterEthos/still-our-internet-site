@@ -2,58 +2,56 @@
 import { loadGlobal } from "../lib/content";
 
 const { name } = loadGlobal();
-const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer" role="contentinfo">
-  <div class="container footer-inner">
-    <p class="footer-desc">
-      Still Our *-* Internet acts on the research and frameworks produced by
-      <a href="https://interethos.org" target="_blank" rel="noopener noreferrer"
-        >InterEthos.org</a
-      ><br />
-      Neither organization is subsidiary to the other.
-    </p>
-    <p class="footer-copy">
-      &copy; {name}. Some rights reserved.
-    </p>
-  </div>
-</footer>
+<div class="footer-bottom">
+  <p class="footer-desc">
+    Still Our *-* Internet acts on the research and frameworks produced by
+    <a href="https://interethos.org" target="_blank" rel="noopener noreferrer"
+      >InterEthos.org</a
+    >
+    Neither organization is subsidiary to the other.
+  </p>
+  <p class="footer-copy">
+    &copy; {name}. Some rights reserved.
+  </p>
+</div>
 
 <style>
-  .site-footer {
-    border-top: 1px solid var(--chalk);
-    background-color: var(--linen);
-    padding-block: 1.5rem;
-  }
-
-  .footer-inner {
+  .footer-bottom {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 15rem;
+    padding-block: clamp(1.25rem, 2vw, 1.75rem);
   }
 
   .footer-desc {
-    font-size: var(--text-sm);
-    color: var(--ash);
-    line-height: var(--leading-relaxed);
+    font-family: var(--font-sans);
+    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    color: #3a362c;
+    line-height: 1.3;
+    letter-spacing: var(--tracking-normal);
   }
 
   .footer-desc a {
-    color: var(--ash);
-    text-underline-offset: 0.2em;
-    transition: color var(--transition-base);
-  }
-
-  .footer-desc a:hover {
-    color: var(--timber);
+    color: #3a362c;
+    text-underline-offset: 0.15em;
   }
 
   .footer-copy {
-    font-size: var(--text-sm);
-    color: var(--ash);
+    font-family: var(--font-sans);
+    font-size: clamp(0.875rem, 1vw, 1.25rem);
+    color: #3a362c;
     white-space: nowrap;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-normal);
+  }
+
+  @media (max-width: 640px) {
+    .footer-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
   }
 </style>

@@ -196,12 +196,12 @@
 --------------------------------------------------------------------------- */
 
 ::selection {
-  background-color: var(--chalk);
+  background-color: var(--new-york-pink);
   color: var(--timber);
 }
 
 ::-moz-selection {
-  background-color: var(--chalk);
+  background-color: var(--new-york-pink);
   color: var(--timber);
 }
 
@@ -429,6 +429,7 @@ p+p {
 
 .button:not(.tab-button):hover {
   transform: scale(1.1);
+  background-color: var(--ash);
 }
 
 .button-arrow {
