@@ -78,5 +78,21 @@ const canonicalURL = Astro.site
     </main>
 
     {!hideHeader && <Footer />}
+
+    <script>
+      document.addEventListener("click", (e) => {
+        const parent = (e.target as HTMLElement).closest(".tooltip-soon")?.parentElement
+          || (e.target as HTMLElement).closest("[class]");
+        const tooltip = parent?.querySelector(".tooltip-soon");
+
+        document.querySelectorAll(".tooltip-soon.is-visible").forEach((el) => {
+          if (el !== tooltip) el.classList.remove("is-visible");
+        });
+
+        if (tooltip && parent?.contains(e.target as Node)) {
+          tooltip.classList.toggle("is-visible");
+        }
+      });
+    </script>
   </body>
 </html>

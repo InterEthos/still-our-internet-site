@@ -79,10 +79,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
         />
       </a>
       <nav class="home-nav" aria-label="Main navigation">
-        <a href="/work">Work</a>
-        <a href="/about">About</a>
-        <a href="/research">Research</a>
-        <a href="/collaborate">Collaborate</a>
+        <a href="/work" onclick="event.preventDefault()">Work<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+        <a href="/about" onclick="event.preventDefault()">About<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+        <a href="/research" onclick="event.preventDefault()">Research<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+        <a href="/collaborate" onclick="event.preventDefault()">Collaborate<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
       </nav>
     </header>
 
@@ -190,6 +190,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
                       <img src={src} alt="" class="card-illus card-illus-mid" />
                     )}
                     {card.caption && <p class="card-title">{card.caption}</p>}
+                    <span class="tooltip-soon">coming soon<span class="tooltip-cursor">_</span></span>
                   </Fragment>
                 )}
               </div>
@@ -219,9 +220,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
                   <p>{p}</p>
                 ))}
               </div>
-              <a href={panel.cta_href} class="button panel-cta">
+              <a href={panel.cta_href} class="button panel-cta" onclick="event.preventDefault()">
                 {panel.cta_text}
                 <img src={buttonArrow.src} alt="" class="button-arrow" />
+                <span class="tooltip-soon tooltip-right">coming soon<span class="tooltip-cursor">_</span></span>
               </a>
             </div>
           ))
@@ -240,7 +242,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
       <div class="upnext-right">
         <div class="upnext-title-row">
           <h3 class="upnext-title">{c.upnext_title}</h3>
-          <img src={arrowLink.src} alt="" class="upnext-arrow" />
+          <span class="upnext-arrow-wrap">
+            <img src={arrowLink.src} alt="" class="upnext-arrow" />
+            <span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span>
+          </span>
         </div>
         <div class="upnext-body">
           {c.upnext_body.map((p) => <p>{p}</p>)}
@@ -262,10 +267,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
           </div>
         </div>
         <nav class="footer-nav" aria-label="Site navigation">
-          <a href="/work">Work</a>
-          <a href="/about">About</a>
-          <a href="/research">Research</a>
-          <a href="/collaborate">Collaborate</a>
+          <a href="/work">Work<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+          <a href="/about">About<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+          <a href="/research">Research<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+          <a href="/collaborate">Collaborate<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
         </nav>
       </section>
 
@@ -317,13 +322,13 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   .home-nav a,
   .footer-nav a {
+    position: relative;
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.4vw, 1.5rem);
     font-weight: 400;
     color: var(--timber);
     text-decoration: line-through;
     letter-spacing: var(--tracking-normal);
-    pointer-events: none;
   }
 
   /* Tab bar */
@@ -541,6 +546,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
     border: 1.5px solid var(--chalk);
     background-color: var(--linen);
     padding: 5% 6%;
+    overflow: visible;
   }
 
   .card-illus-mid {
@@ -656,10 +662,15 @@ const cardImages: Record<string, ImageMetadata | string> = {
     margin: 0;
   }
 
+  .upnext-arrow-wrap {
+    position: relative;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
   .upnext-arrow {
     width: clamp(1rem, 1.2vw, 1.25rem);
     height: auto;
-    flex-shrink: 0;
   }
 
   .upnext-body {
