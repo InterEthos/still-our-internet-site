@@ -87,3 +87,47 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+
+/* ---------------------------------------------------------------------------
+   Browser-targeting selectors (ported from zero-core x-browser.scss)
+   Use these to wrap browser-specific overrides in component <style> blocks.
+
+   Firefox only:
+     @-moz-document url-prefix() { ... }
+
+   Safari 9+:
+     _:default:not(:root:root), .your-selector { ... }
+
+   Safari 7+:
+     _::-webkit-full-page-media, _:future, :root .your-selector { ... }
+
+   iOS only:
+     @supports (-webkit-overflow-scrolling: touch) { ... }
+
+   Everything except iOS:
+     @supports not (-webkit-overflow-scrolling: touch) { ... }
+
+   Edge (legacy):
+     @supports (-ms-ime-align: auto) { ... }
+
+   IE 10/11:
+     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { ... }
+--------------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------------
+   Safari / Chrome — font smoothing (subpixel rendering looks muddy on macOS)
+--------------------------------------------------------------------------- */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------------------------------------------------------
+   Safari — fix SVG scaling in flex containers
+   Safari sometimes ignores intrinsic aspect ratio on <img> with SVG sources
+--------------------------------------------------------------------------- */
+
+img[src$=".svg"] {
+  height: auto;
+}
