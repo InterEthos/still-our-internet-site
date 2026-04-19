@@ -1,8 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { loadPage } from '../lib/content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { loadPage } from "../lib/content";
+import buttonArrow from "../assets/images/button-arrow.svg";
+import dottedGrid from "../assets/images/dotted-grid.svg";
 
-const { meta, options, content } = loadPage('404');
+const { meta, options, content } = loadPage("404");
 const c = content as {
   code: string;
   heading: string;
@@ -17,12 +19,15 @@ const c = content as {
   description={meta.description}
   noindex={options?.noindex ?? false}
 >
-  <section class="error-page">
-    <div class="container">
+  <section class="error-page" style={`--dot-pattern: url(${dottedGrid.src})`}>
+    <div class="error-content">
       <p class="error-code" aria-hidden="true">{c.code}</p>
       <h1>{c.heading}</h1>
       <p class="error-message">{c.message}</p>
-      <a href={c.cta_href} class="btn btn-primary magnify-onhover">{c.cta}</a>
+      <a href={c.cta_href} class="button">
+        {c.cta}
+        <img src={buttonArrow.src} alt="" class="button-arrow" />
+      </a>
     </div>
   </section>
 </BaseLayout>
@@ -32,11 +37,15 @@ const c = content as {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-block: 6rem;
+    padding: clamp(2rem, 3vw, 3rem);
     text-align: center;
+    background: var(--parchment) var(--dot-pattern) repeat top left / 0.5%;
+    border-radius: clamp(1.5rem, 3vw, 3.125rem);
+    margin: clamp(1rem, 2vw, 2rem);
+    min-height: 50vh;
   }
 
-  .error-page .container {
+  .error-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,10 +53,11 @@ const c = content as {
   }
 
   .error-code {
-    font-size: clamp(5rem, 20vw, 10rem);
+    font-size: clamp(5rem, 16vw, 8rem);
     font-weight: 700;
     line-height: 1;
-    color: var(--chalk);
+    margin: 5rem 0 -2rem;
+    color: var(--timber);
     letter-spacing: -0.04em;
     -webkit-user-select: none;
     user-select: none;

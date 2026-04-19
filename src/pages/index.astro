@@ -256,7 +256,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
     </main>
 
-    <footer class="home-footer" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
       <hr class="section-rule" />
 
       <section class="superfooter">
@@ -608,6 +608,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .panel-cta {
+    align-self: flex-start;
     margin-left: 0.5rem;
   }
 
@@ -760,45 +761,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   @media (max-width: 640px) {
-    .upnext-card {
-      grid-template-columns: 1fr;
-    }
-
-    .tab-bar {
-      flex-wrap: wrap;
-      border-radius: 1.25rem;
-      gap: 4px;
-    }
-
-    .tab-button {
-      flex: none;
-      height: 40px;
-    }
-
-    .tab-button.is-active {
-      background-color: var(--timber);
-    }
-
-    .lavalamp-pill,
-    .lavalamp-pill-current {
-      display: none;
-    }
-
-    .cards-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .card {
-      aspect-ratio: auto;
-      min-height: clamp(220px, 50vw, 320px);
-    }
-
-    .superfooter {
-      grid-template-columns: 1fr;
-    }
-
-    .footer-nav {
-      align-items: flex-start;
+    .home {
+      padding-inline: 1.25rem;
     }
 
     .home-top {
@@ -813,6 +777,57 @@ const cardImages: Record<string, ImageMetadata | string> = {
       gap: 0.5rem 1.25rem;
     }
 
+    .tab-bar {
+      flex-wrap: wrap;
+      max-width: 100%;
+      border-radius: 1.25rem;
+      gap: 4px;
+    }
+
+    .tab-button {
+      flex: 0 0 calc(50% - 2px);
+      padding: 0.75rem 1rem 0.5rem;
+    }
+
+    .tab-button.is-active {
+      background-color: var(--timber);
+    }
+
+    .lavalamp-pill,
+    .lavalamp-pill-current {
+      display: none;
+    }
+
+    .home-main {
+      gap: 2rem;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 0.25rem;
+    }
+
+    .card {
+      min-height: 0;
+    }
+
+    .upnext-card {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 1.5rem;
+    }
+
+    .superfooter {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-nav {
+      align-items: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+    }
   }
 </style>
 

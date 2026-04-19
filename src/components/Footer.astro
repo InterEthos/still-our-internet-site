@@ -4,6 +4,7 @@ import { loadGlobal } from "../lib/content";
 const { name } = loadGlobal();
 ---
 
+<hr class="section-rule" />
 <div class="footer-bottom">
   <p class="footer-desc">
     Still Our *-* Internet acts on the research and frameworks produced by
@@ -18,6 +19,12 @@ const { name } = loadGlobal();
 </div>
 
 <style>
+  .section-rule {
+    height: 1px;
+    border: none;
+    background-color: var(--chalk);
+  }
+
   .footer-bottom {
     display: flex;
     align-items: flex-end;

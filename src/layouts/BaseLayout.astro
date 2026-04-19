@@ -73,11 +73,19 @@ const canonicalURL = Astro.site
 
     {!hideHeader && <Header />}
 
-    <main id="main-content" tabindex="-1">
+    {hideHeader ? (
       <slot />
-    </main>
+    ) : (
+      <main id="main-content" tabindex="-1" style="padding-inline: clamp(1.25rem, 8.5vw, 9rem); background-color: var(--linen);">
+        <slot />
+      </main>
+    )}
 
-    {!hideHeader && <Footer />}
+    {!hideHeader && (
+      <footer role="contentinfo" style="padding-inline: clamp(1.25rem, 8.5vw, 9rem); background-color: var(--linen);">
+        <Footer />
+      </footer>
+    )}
 
     <script>
       document.addEventListener("click", (e) => {

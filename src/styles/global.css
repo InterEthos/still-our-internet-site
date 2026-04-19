@@ -348,70 +348,10 @@ p+p {
    Buttons
 --------------------------------------------------------------------------- */
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.3rem;
-  font-weight: 500;
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition:
-    background-color var(--transition-base),
-    border-color var(--transition-base),
-    color var(--transition-base);
-}
-
-/* Primary — dark fill, light text */
-.btn-primary {
-  background-color: var(--timber);
-  border-color: var(--timber);
-  color: var(--linen);
-}
-
-.btn-primary:hover {
-  background-color: var(--ash);
-  border-color: var(--ash);
-  color: var(--linen);
-}
-
-/* Outline — light bg, visible border, dark text */
-.btn-outline {
-  background-color: var(--linen);
-  border-color: var(--chalk);
-  color: var(--timber);
-}
-
-.btn-outline:hover {
-  background-color: var(--parchment);
-  border-color: var(--chalk);
-  color: var(--timber);
-}
-
-/* Ghost — transparent, muted text */
-.btn-ghost {
-  background-color: transparent;
-  border-color: transparent;
-  color: var(--ash);
-}
-
-.btn-ghost:hover {
-  background-color: var(--parchment);
-  color: var(--timber);
-}
-
-
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-start;
   color: var(--linen);
   background-color: var(--timber);
   font-size: clamp(1rem, 1.3vw, 1.5625rem);

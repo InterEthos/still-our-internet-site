@@ -1,45 +1,66 @@
 ---
-import Nav from "./Nav.astro";
-import { loadGlobal } from "../lib/content";
-
-const { name } = loadGlobal();
 ---
 
-<header class="site-header" role="banner">
-  <div class="container header-inner">
-    <a href="/" class="site-logo" aria-label={`${name} — go to homepage`}>
-      {name}
-    </a>
-    <Nav />
-  </div>
+<header class="site-header">
+  <a href="/" class="site-logo" aria-label="Still Our Internet — home">
+    <img src="/logo.svg" alt="Still Our Internet" width="268" height="208" />
+  </a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="/work" onclick="event.preventDefault()">Work<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+    <a href="/about" onclick="event.preventDefault()">About<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+    <a href="/research" onclick="event.preventDefault()">Research<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+    <a href="/collaborate" onclick="event.preventDefault()">Collaborate<span class="tooltip-soon tooltip-left">coming soon<span class="tooltip-cursor">_</span></span></a>
+  </nav>
 </header>
 
 <style>
   .site-header {
-    height: var(--header-height);
-    background-color: rgb(242 235 217 / 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--chalk);
-  }
-
-  .header-inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    height: 100%;
+    padding: clamp(1.75rem, 5vw, 4rem) clamp(1.25rem, 8.5vw, 9rem);
+    background-color: var(--linen);
   }
 
   .site-logo {
-    font-weight: 700;
-    font-size: var(--text-lg);
-    color: var(--timber);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-    transition: color var(--transition-base);
+    display: block;
+    line-height: 0;
+    flex-shrink: 0;
   }
 
-  .site-logo:hover {
-    color: var(--ash);
+  .site-logo img {
+    width: clamp(140px, 18vw, 268px);
+    height: auto;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: clamp(0.4rem, 0.8vw, 0.65rem);
+  }
+
+  .site-nav a {
+    position: relative;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+    font-weight: 400;
+    color: var(--timber);
+    text-decoration: line-through;
+    letter-spacing: var(--tracking-normal);
+  }
+
+  @media (max-width: 640px) {
+    .site-header {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .site-nav {
+      align-items: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+    }
   }
 </style>
