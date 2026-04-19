@@ -436,11 +436,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .card-dark .card-illus {
-    flex: 1;
     width: 83%;
+    height: auto;
+    margin: auto 0;
     align-self: center;
-    object-fit: contain;
-    min-height: 0;
   }
 
   /* Card 2: double-arch video */
@@ -495,7 +494,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex: 1 1 0;
+    min-height: 0;
     padding: 5% 6%;
   }
 
@@ -553,11 +553,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .card-fg-img {
-    max-height: 65%;
-    flex: 1;
+    width: 45%;
+    height: auto;
+    margin: auto 0;
     align-self: center;
-    object-fit: contain;
-    padding: 15% 0 15%;
   }
 
   /* Card 4: distorted wireframe */
@@ -569,12 +568,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 
   .card-illus-mid {
-    max-height: 65%;
-    flex: 1;
+    width: 48%;
+    height: auto;
+    margin: auto 0;
     align-self: center;
-    object-fit: contain;
-    min-height: 0;
-    padding: 5% 0 5%;
   }
 
   /* Tab panels */
@@ -685,11 +682,11 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   .upnext-arrow-wrap {
     position: relative;
-    flex-shrink: 0;
     cursor: pointer;
   }
 
   .upnext-arrow {
+    display: block;
     width: clamp(1rem, 1.2vw, 1.25rem);
     height: auto;
   }
