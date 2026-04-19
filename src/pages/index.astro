@@ -330,8 +330,19 @@ const cardImages: Record<string, ImageMetadata | string> = {
     font-size: clamp(1rem, 1.4vw, 1.5rem);
     font-weight: 400;
     color: var(--timber);
-    text-decoration: line-through;
+    text-decoration: none;
     letter-spacing: var(--tracking-normal);
+  }
+
+  .home-nav a::after,
+  .footer-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    height: 1.5px;
+    background-color: var(--timber);
   }
 
   /* Tab bar */
