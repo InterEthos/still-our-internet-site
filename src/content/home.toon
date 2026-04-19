@@ -24,11 +24,11 @@ content:
     supporters,for Supporters,The moment for intervention is now.,"Digital infrastructure is being built right now. The norms being established, the defaults being set, the power being concentrated — these are happening in the present tense.|Philanthropy in this space is one of the few levers that can fund long-horizon thinking outside of market incentives.",Work with us,/collaborate
     humans,for Humans,You are not the product. You are not the problem. You are the point.,"The internet was built by people and for people. That remains true, even as the systems that mediate our experience of it become more complex, more opaque, and more powerful.|Still Our Internet is a reminder that the future of digital life is still ours to shape.",About us,/about
 
-  cards[4]{id,style,image,tag,caption}:
-    dark-illus,dark,card-dark-illus,null,Emerging right to human decision
-    video,video,liminal-train-fallback,null,null
-    bg-photo,bg-photo,blurred-dawn-gradient,OPEN SOURCE TOOLS,"starters, libraries and modules"
-    outline,outline,card-globe,HOW WE GOT HERE,the distorted www
+  cards[4]{id,style,image,tag,caption,href}:
+    dark-illus,dark,card-dark-illus,null,Emerging right to human decision,null
+    video,video,liminal-train-fallback,null,null,null
+    bg-photo,bg-photo,blurred-dawn-gradient,OPEN SOURCE TOOLS,"starters, libraries and modules",//undonelabs.com
+    outline,outline,card-globe,HOW WE GOT HERE,the distorted www,null
 
   upnext_heading: Up next
   upnext_title: The Firsthand Protocol
