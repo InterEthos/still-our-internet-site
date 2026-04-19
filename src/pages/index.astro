@@ -850,7 +850,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
   }
 </style>
 
-<script>
+<script is:inline>
   document.addEventListener("alpine:init", () => {
     Alpine.data("homeTab", () => ({
       tab: "anyone",
@@ -872,8 +872,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
           this.snapActive();
           this.measurePanel();
           setTimeout(() => {
+            this.resetLavalamp();
+            this.snapActive();
             this.lavalampReady = true;
-          }, 50);
+          }, 100);
         });
 
         window.addEventListener("resize", () => {
@@ -900,11 +902,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
         if (id) this.hoverTab = id;
       },
 
+      findActive() {
+        return this.$refs.tabBar.querySelector("[aria-selected='true']")
+          || this.$refs.tabBar.querySelector(".tab-button");
+      },
+
       resetLavalamp() {
         this.hoverTab = null;
-        const active = this.$refs.tabBar.querySelector(
-          "[aria-selected='true']",
-        );
+        const active = this.findActive();
         if (active) {
           const bar = this.$refs.tabBar.getBoundingClientRect();
           const btn = active.getBoundingClientRect();
@@ -916,9 +921,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
       },
 
       snapActive() {
-        const active = this.$refs.tabBar.querySelector(
-          "[aria-selected='true']",
-        );
+        const active = this.findActive();
         if (active) {
           const bar = this.$refs.tabBar.getBoundingClientRect();
           const btn = active.getBoundingClientRect();
