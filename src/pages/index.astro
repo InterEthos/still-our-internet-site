@@ -562,7 +562,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   .tab-panels {
     position: relative;
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: clip;
     padding-block-start: clamp(0.25rem, 0.8vw, 0.75rem);
     transition: height 350ms ease;
   }
@@ -751,12 +752,24 @@ const cardImages: Record<string, ImageMetadata | string> = {
   /* Responsive */
 
   @media (max-width: 900px) {
+    .tab-bar {
+      flex-wrap: wrap;
+      max-width: 100%;
+      border-radius: 1.5rem;
+      gap: 4px;
+    }
+
+    .tab-button {
+      flex: 0 0 calc(33.333% - 3px);
+    }
+
     .home-main {
       grid-template-columns: 1fr;
     }
 
     .tab-panels {
       padding-block-start: 0;
+      order: -1;
     }
   }
 
@@ -789,12 +802,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
       padding: 0.75rem 1rem 0.5rem;
     }
 
-    .tab-button.is-active {
-      background-color: var(--timber);
-    }
 
-    .lavalamp-pill,
-    .lavalamp-pill-current {
+    .lavalamp-pill {
       display: none;
     }
 
@@ -855,6 +864,12 @@ const cardImages: Record<string, ImageMetadata | string> = {
           setTimeout(() => {
             this.lavalampReady = true;
           }, 50);
+        });
+
+        window.addEventListener("resize", () => {
+          this.measurePanel();
+          this.snapActive();
+          this.resetLavalamp();
         });
       },
 

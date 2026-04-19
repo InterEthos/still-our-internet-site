@@ -372,6 +372,10 @@ p+p {
   background-color: var(--ash);
 }
 
+.button:active {
+  background-color: var(--christine);
+}
+
 .button-arrow {
   width: 0.55rem;
   height: 0.55rem;
