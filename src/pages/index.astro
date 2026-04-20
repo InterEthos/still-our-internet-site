@@ -162,6 +162,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
                       loop
                       muted
                       playsinline
+                      webkit-playsinline
+                      disablepictureinpicture
                       src={liminalTrain}
                     />
                   </div>
@@ -203,8 +205,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
       </div>
 
       <div
-        class="tab-panels"
-        x-ref="tabPanels"
+        class="panel-content"
+        x-ref="panelContent"
         :style="`height: ${panelHeight}px`"
       >
         {
@@ -437,6 +439,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
     flex-direction: column;
     text-decoration: none;
     color: inherit;
+    min-width: 0;
+    min-height: 0;
   }
 
   /* Card 1: abstract line graph */
@@ -455,12 +459,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   /* Card 2: double-arch video */
   .card-video {
-    padding: 0;
     background: transparent;
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
     padding: 0.5rem;
-    margin-top: 0.25rem;
     overflow: visible;
   }
 
@@ -484,6 +486,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .card-fill-video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  .card-fill-video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+
+  .card-fill-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
   }
 
   /* Card 3: undone labs dawn gradient */
@@ -587,7 +601,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   /* Tab panels */
 
-  .tab-panels {
+  .panel-content {
     position: relative;
     overflow-x: visible;
     overflow-y: clip;
@@ -794,7 +808,7 @@ const cardImages: Record<string, ImageMetadata | string> = {
       grid-template-columns: 1fr;
     }
 
-    .tab-panels {
+    .panel-content {
       padding-block-start: 0;
       order: -1;
     }
@@ -862,95 +876,14 @@ const cardImages: Record<string, ImageMetadata | string> = {
 </style>
 
 <script is:inline>
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("homeTab", () => ({
-      tab: "anyone",
-      hoverTab: null,
-      panelHeight: 0,
-      activeLeft: 0,
-      activeWidth: 0,
-      activeTop: 0,
-      activeHeight: 0,
-      lavalampLeft: 0,
-      lavalampWidth: 0,
-      lavalampTop: 0,
-      lavalampHeight: 0,
-      lavalampReady: false,
-
-      init() {
-        this.$nextTick(() => {
-          this.resetLavalamp();
-          this.snapActive();
-          this.measurePanel();
-          setTimeout(() => {
-            this.resetLavalamp();
-            this.snapActive();
-            this.lavalampReady = true;
-          }, 100);
-        });
-
-        window.addEventListener("resize", () => {
-          this.measurePanel();
-          this.snapActive();
-          this.resetLavalamp();
-        });
-      },
-
-      measurePanel() {
-        const panel = this.$refs.tabPanels?.querySelector(
-          "[role='tabpanel']:not([style*='display: none'])",
-        );
-        if (panel) this.panelHeight = panel.scrollHeight;
-      },
-
-      moveLavalamp(el, id) {
-        const bar = this.$refs.tabBar.getBoundingClientRect();
-        const btn = el.getBoundingClientRect();
-        this.lavalampLeft = btn.left - bar.left;
-        this.lavalampWidth = btn.width;
-        this.lavalampTop = btn.top - bar.top;
-        this.lavalampHeight = btn.height;
-        if (id) this.hoverTab = id;
-      },
-
-      findActive() {
-        return this.$refs.tabBar.querySelector("[aria-selected='true']")
-          || this.$refs.tabBar.querySelector(".tab-button");
-      },
-
-      resetLavalamp() {
-        this.hoverTab = null;
-        const active = this.findActive();
-        if (active) {
-          const bar = this.$refs.tabBar.getBoundingClientRect();
-          const btn = active.getBoundingClientRect();
-          this.lavalampLeft = btn.left - bar.left;
-          this.lavalampWidth = btn.width;
-          this.lavalampTop = btn.top - bar.top;
-          this.lavalampHeight = btn.height;
-        }
-      },
-
-      snapActive() {
-        const active = this.findActive();
-        if (active) {
-          const bar = this.$refs.tabBar.getBoundingClientRect();
-          const btn = active.getBoundingClientRect();
-          this.activeLeft = btn.left - bar.left;
-          this.activeWidth = btn.width;
-          this.activeTop = btn.top - bar.top;
-          this.activeHeight = btn.height;
-        }
-      },
-
-      selectTab(id, el) {
-        this.tab = id;
-        this.$nextTick(() => {
-          this.moveLavalamp(el);
-          this.snapActive();
-          this.measurePanel();
-        });
-      },
-    }));
-  });
+  // Safari desktop: hide video, show fallback image
+  (function() {
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    var isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (isSafari && isDesktop) {
+      document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".card-fill-video").forEach(function(v) { v.remove(); });
+      });
+    }
+  })();
 </script>

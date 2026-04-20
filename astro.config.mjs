@@ -10,7 +10,7 @@ export default defineConfig({
   devToolbar: { enabled: false },
 
   integrations: [
-    alpinejs(),
+    alpinejs({ entrypoint: '/src/alpine-entrypoint' }),
     sitemap(),
   ],
 
