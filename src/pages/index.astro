@@ -437,6 +437,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
     flex-direction: column;
     text-decoration: none;
     color: inherit;
+    min-width: 0;
+    min-height: 0;
   }
 
   /* Card 1: abstract line graph */
@@ -455,12 +457,10 @@ const cardImages: Record<string, ImageMetadata | string> = {
 
   /* Card 2: double-arch video */
   .card-video {
-    padding: 0;
     background: transparent;
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
     padding: 0.5rem;
-    margin-top: 0.25rem;
     overflow: visible;
   }
 
