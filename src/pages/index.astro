@@ -162,6 +162,8 @@ const cardImages: Record<string, ImageMetadata | string> = {
                       loop
                       muted
                       playsinline
+                      webkit-playsinline
+                      disablepictureinpicture
                       src={liminalTrain}
                     />
                   </div>
@@ -484,6 +486,18 @@ const cardImages: Record<string, ImageMetadata | string> = {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .card-fill-video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  .card-fill-video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+
+  .card-fill-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
   }
 
   /* Card 3: undone labs dawn gradient */
@@ -952,5 +966,16 @@ const cardImages: Record<string, ImageMetadata | string> = {
         });
       },
     }));
+  });
+
+  // Safari desktop: autoplay is blocked — hide video, show fallback image
+  document.addEventListener("DOMContentLoaded", function() {
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    var isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (isSafari && isDesktop) {
+      document.querySelectorAll(".card-fill-video").forEach(function(v) {
+        v.remove();
+      });
+    }
   });
 </script>
