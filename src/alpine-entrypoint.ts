@@ -1,8 +1,12 @@
 import type { Alpine } from 'alpinejs';
 
 export default (Alpine: Alpine) => {
+  const validTabs = ['anyone', 'engineers', 'thinkers', 'creators', 'supporters', 'humans'];
+  const urlTab = new URLSearchParams(window.location.search).get('for');
+  const initialTab = urlTab && validTabs.includes(urlTab) ? urlTab : 'anyone';
+
   Alpine.data('homeTab', () => ({
-    tab: 'anyone',
+    tab: initialTab,
     hoverTab: null,
     panelHeight: 0,
     activeLeft: 0,
@@ -81,6 +85,13 @@ export default (Alpine: Alpine) => {
 
     selectTab(id: string, el: HTMLElement) {
       this.tab = id;
+      const url = new URL(window.location.href);
+      if (id === 'anyone') {
+        url.searchParams.delete('for');
+      } else {
+        url.searchParams.set('for', id);
+      }
+      history.replaceState(null, '', url.toString());
       this.$nextTick(() => {
         this.moveLavalamp(el);
         this.snapActive();
